@@ -4,8 +4,8 @@ Lien du Rapport :
 https://docs.google.com/document/d/1uqOXZA4931Fzae__El1_qWlyU3KgkM-wfBzQk86oAps/edit?usp=sharing
 
 
-¤ Compilation des fichiers executables :
-¤ make (dans la source)
+¤ Compilation des fichiers executables (dans la source) :
+¤ make clean & make
 
 
 ¤ Lancement test Final :

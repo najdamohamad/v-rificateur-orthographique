@@ -37,7 +37,11 @@ int main(int argc, char *argv[])
     //lecture();
 
     //Vérification du texte
-    //verif();
+    verif(texte, NULL);
+
+    //Liberation mémoire
+    fclose(dictionnaire); 
+    fclose(texte); 
 
     printf("\nFIN DU PROGRAMME\n");
     return EXIT_SUCCESS;
