@@ -1,10 +1,20 @@
 #include "lecture.h"
-#include <string.h>
 
 //FONCTIONS GENERIQUES
+//Fonction optimisé en temps pour la lecture du dictionnaire (1 mot par ligne)
+void lecture_dico(FILE* dico, void (func)(char*))
+{
+    char mot[MAX_CARAC_WORD];
+
+    while (fgets(mot, MAX_CARAC_WORD, dico) != NULL)
+    {
+        func(strtok(mot, "\n"));
+    }
+}
+
 //Fonction générique de vérification de fichier texte
 //Paramètres : le texte et la fonction spécifique de vérification de correcte écriture
-void verif(FILE* texte, void (*verif_func)(void))
+void lecture(FILE* texte, void (func)(char*))
 {
     int nb_words;
     char ** mots = get_next_line_into_words(texte, &nb_words);
@@ -16,15 +26,13 @@ void verif(FILE* texte, void (*verif_func)(void))
             if(mots[i] == NULL)
                 printf("\nERREUR LECTURE\n");
             
-            printf("%s\n", mots[i]);
-            getchar();
-            //verif_func(mots[i]);
+            func(mots[i]);
         }
         free_tab_char(mots, nb_words);
         mots = get_next_line_into_words(texte, &nb_words);
     }
 
-    printf("\nFin de la vérification du fichier texte\n");
+    printf("\nFin lecture\n");
 }
 
 void free_tab_char(char** c, int nb)

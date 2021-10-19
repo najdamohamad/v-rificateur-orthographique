@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "lecture.h"
+
+void test(char* mot)
+{
+    printf("%s\n", mot);
+    //getchar();
+}
 
 int main(int argc, char *argv[])
 {
@@ -32,17 +39,25 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+    clock_t begin;
+    unsigned long time_ms;
+
     //METHODE 1 : TABLE DE HASHAGE
+    begin = clock();
     //Lecture du dictionnaire 
-    //lecture();
+    lecture_dico(dictionnaire, test);
+    time_ms = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Vérification du texte
-    verif(texte, NULL);
+    begin = clock();
+    lecture(texte, test);
+    time_ms = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Liberation mémoire
-    fclose(dictionnaire); 
-    fclose(texte); 
+    fclose(dictionnaire);
+    fclose(texte);
 
+    printf("Temp dico : %ld\n",time_ms);
     printf("\nFIN DU PROGRAMME\n");
     return EXIT_SUCCESS;
 }
