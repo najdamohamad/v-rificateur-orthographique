@@ -2,19 +2,19 @@
 
 //FONCTIONS GENERIQUES
 //Fonction optimisé en temps pour la lecture du dictionnaire (1 mot par ligne)
-void lecture_dico(FILE* dico, void (func)(char*))
+void lecture_dico(FILE* dico, void* struct_donne, void (func)(char*, void*))
 {
     char mot[MAX_CARAC_WORD];
 
     while (fgets(mot, MAX_CARAC_WORD, dico) != NULL)
     {
-        func(strtok(mot, "\n"));
+        func(strtok(mot, "\n"), struct_donne);
     }
 }
 
 //Fonction générique de vérification de fichier texte
 //Paramètres : le texte et la fonction spécifique de vérification de correcte écriture
-void lecture(FILE* texte, void (func)(char*))
+void lecture(FILE* texte, void* struct_donne, void (func)(char*, void*))
 {
     int nb_words;
     char ** mots = get_next_line_into_words(texte, &nb_words);
@@ -26,7 +26,12 @@ void lecture(FILE* texte, void (func)(char*))
             if(mots[i] == NULL)
                 printf("\nERREUR LECTURE\n");
             
-            func(mots[i]);
+            //To lower case
+            for(int j = 0; mots[i][j]; j++){
+                mots[i][j] = tolower(mots[i][j]);
+            }
+            
+            func(mots[i], struct_donne);
         }
         free_tab_char(mots, nb_words);
         mots = get_next_line_into_words(texte, &nb_words);

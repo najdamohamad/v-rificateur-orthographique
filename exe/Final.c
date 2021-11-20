@@ -2,11 +2,31 @@
 #include <stdlib.h>
 #include <time.h>
 #include "lecture.h"
+#include "hash.h"
 
-void test(char* mot)
+void test(char* mot, void* unused)
 {
+    unused = unused;
     printf("%s\n", mot);
     //getchar();
+}
+
+void lectureHash(char* mot, void* struct_donne)
+{
+    T e = element_new(mot);
+    inserer_redimensionner(e, struct_donne);
+}
+
+void verifHash(char* mot, void* struct_donne)
+{
+    T e = element_new(mot);
+    if(!est_present(e, struct_donne))
+    {
+        printf("%s incorrect\n", mot);
+        //getchar();
+    }
+
+    element_delete(e);
 }
 
 int main(int argc, char *argv[])
@@ -39,25 +59,36 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    clock_t begin;
-    unsigned long time_ms;
 
-    //METHODE 1 : TABLE DE HASHAGE
+    //********************************************TESTS********************************************
+    clock_t begin;
+    unsigned long time_ms_dico,time_ms_verif;
+    
+    //*************METHODE 1 : TABLE DE HASHAGE
+
     begin = clock();
-    //Lecture du dictionnaire 
-    lecture_dico(dictionnaire, test);
-    time_ms = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+
+    table_hachage ht = new_hash(1);
+    //Lecture du dictionnaire
+    printf("Debut lecture...\n");
+    lecture_dico(dictionnaire, &ht, lectureHash);
+    time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+    printf("Temps dico (ms): %ld\n", time_ms_dico);
 
     //Vérification du texte
     begin = clock();
-    lecture(texte, test);
-    time_ms = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+    lecture(texte, &ht, verifHash);
+    time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+
+    //Debug : affichage
+    afficher_table(&ht);
 
     //Liberation mémoire
     fclose(dictionnaire);
     fclose(texte);
+    destroy_hash(&ht);
 
-    printf("Temp dico : %ld\n",time_ms);
+    printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
     printf("\nFIN DU PROGRAMME\n");
     return EXIT_SUCCESS;
 }
