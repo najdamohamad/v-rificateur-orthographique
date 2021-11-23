@@ -14,10 +14,10 @@ typedef struct node{
 
 liste liste_create();
 void liste_afficher(liste l );
-bool liste_element_exist(T e, liste l);
+bool liste_element_exist(void* e, liste l);
 void* liste_get_element(liste l, int indice);
-void liste_add_last(T e , liste* l);
-void liste_add_first(T e, liste* l);
+void liste_add_last(void* e , liste* l);
+void liste_add_first(void* e, liste* l);
 void liste_destroy(liste l);
 
 #endif

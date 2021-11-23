@@ -21,7 +21,7 @@ void liste_afficher(liste l)
     printf("\n");
 }
 
-void liste_add_last(T e , liste* l)
+void liste_add_last(void* e , liste* l)
 {
     liste last_element = calloc(1, sizeof(*last_element)) ;
     last_element->e = e;
@@ -41,7 +41,7 @@ void liste_add_last(T e , liste* l)
 
 }
 
-bool liste_element_exist( T e , liste l)
+bool liste_element_exist( void* e , liste l)
 {
     liste copy_l = l ;
     while (copy_l != NULL )
@@ -54,7 +54,7 @@ bool liste_element_exist( T e , liste l)
     
 }
 
-void liste_add_first(T e, liste* l)
+void liste_add_first(void* e, liste* l)
 {
     liste new_element = calloc(1, sizeof(*new_element));
     new_element->e = e;
