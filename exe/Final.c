@@ -12,29 +12,29 @@ void test(char* mot, void* unused)
     //getchar();
 }
 
-void lectureHash(char* mot, void* struct_donne)
-{
-    T e = element_new(mot);
-    inserer_redimensionner(e, struct_donne);
-}
+// void lectureHash(char* mot, void* struct_donne)
+// {
+//     T e = element_new(mot);
+//     inserer_redimensionner(e, struct_donne);
+// }
 
 void lectureListe(char* mot, void* struct_donne)
 {
     T e = element_new(mot);
-    add_first(e, struct_donne);
+    liste_add_first(e, struct_donne);
 }
 
-void verifHash(char* mot, void* struct_donne)
-{
-    T e = element_new(mot);
-    if(!est_present(e, struct_donne))
-    {
-        printf("%s incorrect\n", mot);
-        //getchar();
-    }
+// void verifHash(char* mot, void* struct_donne)
+// {
+//     T e = element_new(mot);
+//     if(!est_present(e, struct_donne))
+//     {
+//         printf("%s incorrect\n", mot);
+//         //getchar();
+//     }
 
-    element_delete(e);
-}
+//     element_delete(e);
+// }
 
 void verifListe(char* mot, void* struct_donne)
 {
@@ -87,24 +87,24 @@ int main(int argc, char *argv[])
 
       begin = clock();
 
-    liste l = create_liste() ;
+    liste l = liste_create() ;
     //Lecture du dictionnaire
     printf("Debut lecture...\n");
-    lecture_dico(dictionnaire, &l, lectureListe);
+    lecture_dico(dictionnaire, l, lectureListe);
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
     printf("Temps dico (ms): %ld\n", time_ms_dico);
 
     //Vérification du texte
     begin = clock();
-    lecture(texte, &l, verifListe);
+    lecture(texte, l, verifListe);
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Debug : affichage
-    afficher_liste(&l);
+    liste_afficher(l);
     //Liberation mémoire
     fclose(dictionnaire);
     fclose(texte);
-    destroy_hash(&l);
+    liste_destroy(l);
 
     printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
     printf("\nFIN DU PROGRAMME\n");
@@ -112,33 +112,33 @@ int main(int argc, char *argv[])
 
 
 
-
+}
     
     //*************METHODE 2 : TABLE DE HASHAGE
 
-    begin = clock();
+//     begin = clock();
 
-    table_hachage ht = new_hash(1);
-    //Lecture du dictionnaire
-    printf("Debut lecture...\n");
-    lecture_dico(dictionnaire, &ht, lectureHash);
-    time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
-    printf("Temps dico (ms): %ld\n", time_ms_dico);
+//     table_hachage ht = new_hash(1);
+//     //Lecture du dictionnaire
+//     printf("Debut lecture...\n");
+//     lecture_dico(dictionnaire, &ht, lectureHash);
+//     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+//     printf("Temps dico (ms): %ld\n", time_ms_dico);
 
-    //Vérification du texte
-    begin = clock();
-    lecture(texte, &ht, verifHash);
-    time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+//     //Vérification du texte
+//     begin = clock();
+//     lecture(texte, &ht, verifHash);
+//     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
-    //Debug : affichage
-    afficher_table(&ht);
+//     //Debug : affichage
+//     afficher_table(&ht);
 
-    //Liberation mémoire
-    fclose(dictionnaire);
-    fclose(texte);
-    destroy_hash(&ht);
+//     //Liberation mémoire
+//     fclose(dictionnaire);
+//     fclose(texte);
+//     destroy_hash(&ht);
 
-    printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
-    printf("\nFIN DU PROGRAMME\n");
-    return EXIT_SUCCESS;
-}
+//     printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
+//     printf("\nFIN DU PROGRAMME\n");
+//     return EXIT_SUCCESS;
+// }
