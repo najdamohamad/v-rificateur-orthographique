@@ -84,6 +84,15 @@ void destroy(liste l)
     }
 }
 
+void* liste_get_element(liste l, int indice)
+{
+    for(int i = 0; i < indice; i++)
+    {
+        l = l->next;
+    }
+    return l->e;
+}
+
 
 
 

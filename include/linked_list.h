@@ -18,5 +18,6 @@ bool liste_element_exist(T e, liste l);
 void add_last(T e , liste* l);
 void add_first(T e, liste* l);
 void destroy(liste l);
+void* liste_get_element(liste l, int indice);
 
 #endif
