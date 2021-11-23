@@ -105,7 +105,7 @@ void afficher_table(table_hachage* ht)
         while (l != NULL)
         {
             element_print(l->element);
-            
+            printf("\n");
             l = l->suivante;
         }
         printf("]\n");
