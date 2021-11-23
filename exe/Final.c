@@ -3,6 +3,7 @@
 #include <time.h>
 #include "lecture.h"
 #include "hash.h"
+#include "linked_list.h"
 
 void test(char* mot, void* unused)
 {
@@ -15,6 +16,12 @@ void lectureHash(char* mot, void* struct_donne)
 {
     T e = element_new(mot);
     inserer_redimensionner(e, struct_donne);
+}
+
+void lectureListe(char* mot, void* struct_donne)
+{
+    T e = element_new(mot);
+    add_first(e, struct_donne);
 }
 
 void verifHash(char* mot, void* struct_donne)
@@ -63,8 +70,40 @@ int main(int argc, char *argv[])
     //********************************************TESTS********************************************
     clock_t begin;
     unsigned long time_ms_dico,time_ms_verif;
+
+    //*************METHODE 1 : Linked list
+
+
+      begin = clock();
+
+    liste l = create_liste() ;
+    //Lecture du dictionnaire
+    printf("Debut lecture...\n");
+    lecture_dico(dictionnaire, &l, lectureListe);
+    time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+    printf("Temps dico (ms): %ld\n", time_ms_dico);
+
+    //Vérification du texte
+    begin = clock();
+    lecture(texte, &l, verifListe);
+    time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+
+    //Debug : affichage
+    afficher_liste(&l);
+    //Liberation mémoire
+    fclose(dictionnaire);
+    fclose(texte);
+    destroy_hash(&l);
+
+    printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
+    printf("\nFIN DU PROGRAMME\n");
+    return EXIT_SUCCESS;
+
+
+
+
     
-    //*************METHODE 1 : TABLE DE HASHAGE
+    //*************METHODE 2 : TABLE DE HASHAGE
 
     begin = clock();
 
