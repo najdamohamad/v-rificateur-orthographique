@@ -18,7 +18,7 @@ int element_compare(T e1, T e2)
 
 void element_print(T e)
 {
-    printf("%s\n",e->mot);
+    printf("%s",e->mot);
 }
 
 char element_get(T e, int i)
