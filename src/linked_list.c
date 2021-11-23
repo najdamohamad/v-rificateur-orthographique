@@ -1,4 +1,5 @@
 #include "linked_list.h"
+#include<stdbool.h>
 
 
 liste create_liste()
@@ -38,6 +39,19 @@ void add_last(T e , liste* l)
     }
     copy_l->next = last_element;
 
+}
+
+bool liste_element_exist( T e , liste l)
+{
+    liste copy_l = l ;
+    while (copy_l->next != NULL )
+    {
+        if(copy_l->e == e)
+        return true ;
+        copy_l = copy_l->next ;
+    }
+    return false ;
+    
 }
 
 void add_first(T e, liste* l)

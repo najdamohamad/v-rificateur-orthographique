@@ -36,6 +36,17 @@ void verifHash(char* mot, void* struct_donne)
     element_delete(e);
 }
 
+void verifListe(char* mot, void* struct_donne)
+{
+    T e = element_new(mot);
+    if(!liste_element_exist(e, struct_donne))
+    {
+        printf("%s incorrect\n", mot);
+        //getchar();
+    }
+
+    element_delete(e);
+}
 int main(int argc, char *argv[])
 {
     //Vérifie que le programme est bien lancé avec 2 arguments
