@@ -2,7 +2,7 @@
 
 //FONCTIONS GENERIQUES
 
-table_hachage new_hash(unsigned capacite)
+table_hachage hash_new(unsigned capacite)
 {
     table_hachage ht;
     ht.capacite = capacite;
@@ -36,42 +36,30 @@ bool hash_identiques(T element_1, T element_2)
     return element_compare(element_1, element_2);
 }
 
-bool est_present(T element, table_hachage* ht)
+bool hash_est_present(T element, table_hachage* ht)
 {
     int h = hash(element, ht->capacite);
     
     liste l = ht->table[h];
-
-    while (l != NULL)
-    {
-        if(hash_identiques(element, l->element) == 0)
-            return 1;
-        
-        l = l->suivante;
-    }
     
-    return 0;
+    return liste_element_exist(element, l);
 }
 
-void inserer_sans_redimensionner(T element, table_hachage* ht)
+void hash_inserer_sans_redimensionner(T element, table_hachage* ht)
 {
-    if(!est_present(element, ht))
+    if(!hash_est_present(element, ht))
     {
         int h = hash(element, ht->capacite);
         ht->nb_elements++;
-
-        liste l = calloc(1, sizeof(*l));
-        l->element = element;
-        l->suivante = ht->table[h];
-        ht->table[h] = l;
+        liste_add_first(element, &ht->table[h]);
     }
 }
 
-void inserer_redimensionner(T element, table_hachage* ht)
+void hash_inserer_redimensionner(T element, table_hachage* ht)
 {
     if(ht->nb_elements > 2*ht->capacite/3)
     {
-        table_hachage new_ht = new_hash(ht->capacite*2);
+        table_hachage new_ht = hash_new(ht->capacite*2);
         
         //Copie de tous les éléments
         unsigned int i;
@@ -81,52 +69,36 @@ void inserer_redimensionner(T element, table_hachage* ht)
             l = ht->table[i];
             while (l != NULL)
             {
-                inserer_sans_redimensionner(element_copy(l->element), &new_ht);
-                l = l->suivante;
+                hash_inserer_sans_redimensionner(element_copy(l->e), &new_ht);
+                l = l->next;
             }
         }
 
-        destroy_hash(ht);
+        hash_destroy(ht);
         *ht = new_ht;
     }
     
-    inserer_sans_redimensionner(element, ht);
+    hash_inserer_sans_redimensionner(element, ht);
 }
 
-void afficher_table(table_hachage* ht)
+void hash_afficher_table(table_hachage* ht)
 {
     unsigned int i;
-    liste l;
     printf("{");
     for(i=0;i<ht->capacite;i++)
     {
-        l = ht->table[i];
-        printf("[");
-        while (l != NULL)
-        {
-            element_print(l->element);
-            printf("\n");
-            l = l->suivante;
-        }
-        printf("]\n");
+        printf("%d : ", i);
+        liste_afficher(ht->table[i]);
     }
     printf("}\n");
 }
 
-void destroy_hash(table_hachage* ht)
+void hash_destroy(table_hachage* ht)
 {
     unsigned int i;
-    liste l, tmp;
     for(i=0;i<ht->capacite;i++)
     {
-        l = ht->table[i];
-        while (l != NULL)
-        {
-            tmp = l;
-            l = l->suivante;
-            element_delete(tmp->element);
-            free(tmp);
-        }
+        liste_destroy(ht->table[i]);
     }
     free(ht->table);
 }

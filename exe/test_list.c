@@ -5,20 +5,20 @@
 int main(void)
 {
 
-    liste ltest = create_liste();
+    liste ltest = liste_create();
     
-    add_first(element_new("3"), &ltest);
-    add_first(element_new("2"), &ltest);
-    add_first(element_new("1"), &ltest);
+    liste_add_first(element_new("3"), &ltest);
+    liste_add_first(element_new("2"), &ltest);
+    liste_add_first(element_new("1"), &ltest);
 
-    afficher(ltest);
+    liste_afficher(ltest);
 
-    add_last(element_new("4"), &ltest);
-    add_last(element_new("5"), &ltest);
-    add_last(element_new("6"), &ltest);
+    liste_add_last(element_new("4"), &ltest);
+    liste_add_last(element_new("5"), &ltest);
+    liste_add_last(element_new("6"), &ltest);
 
-    afficher(ltest);
-    destroy(ltest);
-    
+    liste_afficher(ltest);
+    liste_destroy(ltest);
+
     return 0;
 }

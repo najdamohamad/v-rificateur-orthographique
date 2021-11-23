@@ -44,17 +44,17 @@ void liste_add_last(T e , liste* l)
 bool liste_element_exist( T e , liste l)
 {
     liste copy_l = l ;
-    while (copy_l->next != NULL )
+    while (copy_l != NULL )
     {
-        if(copy_l->e == e)
-        return true ;
+        if(element_compare(copy_l->e, e) == 0)
+            return true ;
         copy_l = copy_l->next ;
     }
     return false ;
     
 }
 
-void lsite_add_first(T e, liste* l)
+void liste_add_first(T e, liste* l)
 {
     liste new_element = calloc(1, sizeof(*new_element));
     new_element->e = e;

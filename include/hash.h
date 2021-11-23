@@ -7,7 +7,7 @@
 #include <assert.h>
 
 #include "element.h"
-#include"linked_liste.h"
+#include "linked_list.h"
 
 //STRUCTURES
 typedef struct {
@@ -20,14 +20,13 @@ typedef struct {
 
 //FONCTIONS GENERIQUES
 //IMPLEMENTATION
-T new_elem(float lat, float lon);
-table_hachage new_hash(unsigned capacite);
+table_hachage hash_new(unsigned capacite);
 int hash(T element, unsigned capacite);
 bool hash_identiques(T element_1, T element_2);
-bool est_present(T element, table_hachage* ht);
-void inserer_sans_redimensionner(T element, table_hachage* ht);
-void afficher_table(table_hachage* ht);
-void destroy_hash(table_hachage* ht);
-void inserer_redimensionner(T element, table_hachage* ht);
+bool hash_est_present(T element, table_hachage* ht);
+void hash_inserer_sans_redimensionner(T element, table_hachage* ht);
+void hash_afficher_table(table_hachage* ht);
+void hash_destroy(table_hachage* ht);
+void hash_inserer_redimensionner(T element, table_hachage* ht);
 
 #endif
