@@ -7,15 +7,9 @@
 #include <assert.h>
 
 #include "element.h"
+#include"linked_liste.h"
 
 //STRUCTURES
-
-typedef struct _cellule {
-  T element;
-  struct _cellule* suivante;
-} cellule;
-typedef cellule* liste;
-
 typedef struct {
   liste* table;
   unsigned capacite; /* capacité de la table */
