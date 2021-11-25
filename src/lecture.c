@@ -8,7 +8,9 @@ void lecture_dico(FILE* dico, void* struct_donne, void (func)(char*, void*))
 
     while (fgets(mot, MAX_CARAC_WORD, dico) != NULL)
     {
-        func(strtok(mot, "\n"), struct_donne);
+        //On supprime de \n de la fin de ligne
+        mot[strlen(mot)-1] = '\0';
+        func(mot, struct_donne);
     }
 }
 
