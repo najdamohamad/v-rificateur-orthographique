@@ -4,24 +4,26 @@
 
 int main(void)
 {
-    arbre a = NULL;
-    if(arbre_est_vide(a))
-        a = creer_noeud(0);
-    
-    a->frere = creer_noeud(4);
-    a->fils = creer_noeud(1);
-    a->fils->frere = creer_noeud(3);
-    a->fils->fils = creer_noeud(2);
-    a->frere->frere = creer_noeud(5);
+    arbre a = creer_noeud(element_new("racine"));
+    arbre c = a;
+    char temp[254];
+
+    for (int i = 0; i < 10; i++)
+    {
+        sprintf(temp, "%d", i);
+        c->frere = creer_noeud(element_new(temp));
+        c->fils = creer_noeud(element_new(temp));
+        c = c->fils;
+    }
     
     if(arbre_est_vide(a))
         printf("erreur");
     
 
-    printf("hauteur : %u\tnb_noeuds : %u\tfeuilles : %u\tparfait ? %d\tdegenere ? %d\n", hauteur(a), nb_noeuds(a), nb_feuilles(a), arbre_est_parfait(a), arbre_est_degenere(a));
+    printf("hauteur : %u\tnb_noeuds : %u\tfeuilles : %u\n", hauteur(a), nb_noeuds(a), nb_feuilles(a));
     
-    parcours_infixe(a);
-
+    parcours_prefixe(a);
+    printf("\n");
     detruire_arbre(a);
     return EXIT_SUCCESS;
 }

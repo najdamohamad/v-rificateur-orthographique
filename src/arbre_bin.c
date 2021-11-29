@@ -7,6 +7,7 @@ noeud* creer_noeud(elem valeur)
 
     n->frere = NULL;
     n->fils = NULL;
+    n->final = false;
     n->val = valeur;
 
     return n;
@@ -24,6 +25,8 @@ void detruire_arbre(arbre a)
 
     detruire_arbre(a->frere);
     detruire_arbre(a->fils);
+
+    element_delete(a->val);
     free(a);
 }
 
@@ -94,7 +97,9 @@ void parcours_prefixe(arbre a)
     if(arbre_est_vide(a))
         return;
 
-    printf("(%d)->",a->val);
+    printf("(");
+    element_print(a->val);
+    printf(")->");
 
     parcours_prefixe(a->fils);
     parcours_prefixe(a->frere);

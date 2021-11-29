@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <assert.h>
+
 typedef struct mot {
   char* mot;
 } *elem;
@@ -16,6 +18,7 @@ void element_print(elem e);
 char element_get(elem e, int i);
 void element_delete(elem e);
 int element_length(elem e);
+elem element_copy(elem e);
 elem element_copy_n(elem e, int n);
 
 #endif

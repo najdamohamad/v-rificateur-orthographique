@@ -55,7 +55,11 @@ elem element_copy_n(elem e, int n)
     assert(n < element_length(e));
 
     for(int i = 0; i< n; i++)
-        strcat(mot, element_get(e, i));
+    {
+        char temp = element_get(e, i);
+        strcat(mot, &temp);
+    }
+        
 
     strcat(mot, "\0");
     elem new = element_new(mot);

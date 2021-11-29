@@ -53,11 +53,6 @@ char** get_next_line_into_words(FILE* pf, int* nb_word)
 {
     *nb_word = -1;
     char ligne [MAX_CARAC_PER_LINE];
-    if(ligne == NULL)
-    {
-        printf("\nERREUR MEMOIRE LIGNE\n");
-        return NULL;
-    }
 
     //Récupère la ligne avec MAX_CARAC_PER_LINE caractères max
     //par ligne et si rien n'est récupéré, renvoie l'indication de la fin de fichier

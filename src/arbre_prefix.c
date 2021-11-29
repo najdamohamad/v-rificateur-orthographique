@@ -1,6 +1,6 @@
 #include "arbre_bin.h"
 
-bool recherche_arbre_prefixe(arbre a, elem e){
+bool recherche_arbre_prefix(arbre a, elem e){
 
     arbre c = a;
     int nb_fils = 0;
@@ -34,6 +34,7 @@ void ajout_prefix(arbre a, elem e)
     arbre p, c = a;
     bool est_frere = false;
     int nb_fils = 0;
+    c->final = false ;
 
     while (!arbre_est_vide(c))
     {   
@@ -58,28 +59,34 @@ void ajout_prefix(arbre a, elem e)
             c = c->frere;
         }
     }
+        
     
-    //// a creer un premier elemeent 
+    //premier cas depend de la position du precedent
     
-    elem new = element_copy_n(e,nb_fils);
-
-    if(est_frere)
-        p->frere = creer_noeud(new);
+    
+    elem new = element_copy_n(e, nb_fils++);
+    if(a == NULL)
+    {
+        a = creer_noeud(new);
+        p = a;
+    }
     else
     {
-        while(!c->final)
-        {
+        if(est_frere)
+            p->frere = creer_noeud(new);
+        else    
             p->fils = creer_noeud(new);
-            if(element_get(e, nb_fils) == '\0')
-            {
-                c->final = true;
-                break ;
-            }
-            new = element_copy_n(e,nb_fils++); 
-            p = c ;
-            c = c->fils ;
+    }
+    
 
-        }
+    //le reste est forcement fils
+    while(element_get(e, nb_fils) != '\0')
+    {
+        new = element_copy_n(e,nb_fils++);
+        p->fils = creer_noeud(new);
+        p = p->fils;
+    }
+
+    p->final = true;
             
-
 }

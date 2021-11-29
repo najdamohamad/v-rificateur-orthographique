@@ -5,17 +5,14 @@
 int main(void)
 {
     arbre a = NULL;
-    if(arbre_est_vide(a))
-        a = creer_noeud(0);
-    
-    
-    if(arbre_est_vide(a))
-        printf("erreur");
-    
+  
+    ajout_prefix(a, element_new("coucou"));
 
-    printf("hauteur : %u\tnb_noeuds : %u\tfeuilles : %u\tparfait ? %d\tdegenere ? %d\n", hauteur(a), nb_noeuds(a), nb_feuilles(a), arbre_est_parfait(a), arbre_est_degenere(a));
-    
-    parcours_infixe(a);
+    printf("fin entrees\n");
+    getchar();
+
+    printf("coucou : %d, salut : %d",   recherche_arbre_prefix(a , element_new("coucou")), 
+                                        recherche_arbre_prefix(a , element_new("salut")));
 
     detruire_arbre(a);
     return EXIT_SUCCESS;

@@ -5,28 +5,28 @@
 #include "hash.h"
 #include "linked_list.h"
 
-void test(char* mot, void* unused)
-{
-    unused = unused;
-    printf("%s\n", mot);
-    //getchar();
-}
+// void test(char* mot, void* unused)
+// {
+//     unused = unused;
+//     printf("%s\n", mot);
+//     //getchar();
+// }
 
 void lectureHash(char* mot, void* struct_donne)
 {
-    T e = element_new(mot);
+    elem e = element_new(mot);
     hash_inserer_redimensionner(e, struct_donne);
 }
 
 void lectureListe(char* mot, void* struct_donne)
 {
-    T e = element_new(mot);
+    elem e = element_new(mot);
     liste_add_first(e, struct_donne);
 }
 
 void verifHash(char* mot, void* struct_donne)
 {
-    T e = element_new(mot);
+    elem e = element_new(mot);
     if(!hash_est_present(e, struct_donne))
     {
         printf("%s incorrect\n", mot);
@@ -37,7 +37,7 @@ void verifHash(char* mot, void* struct_donne)
 
 void verifListe(char* mot, void* struct_donne)
 {
-    T e = element_new(mot);
+    elem e = element_new(mot);
     if(!liste_element_exist(e, struct_donne))
     {
         printf("%s incorrect\n", mot);

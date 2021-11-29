@@ -7,9 +7,9 @@ int main(void)
 {
     clock_t begin = clock();
 
-    T e1 = element_new("coucou");
-    T e2 = element_new(" salut");
-    T e3 = element_new(" ça va ?");
+    elem e1 = element_new("coucou");
+    elem e2 = element_new(" salut");
+    elem e3 = element_new(" ça va ?");
 
     element_print(e1);
     element_print(e2);
