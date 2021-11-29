@@ -9,6 +9,6 @@
 #include "arbre_bin.h"
 
 bool recherche_arbre_prefix(arbre a , elem e);
-void ajout_prefix(arbre a, elem e);
+void ajout_prefix(arbre* a, elem e);
 
 #endif

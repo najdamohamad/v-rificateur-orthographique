@@ -103,5 +103,6 @@ void parcours_prefixe(arbre a)
 
     parcours_prefixe(a->fils);
     parcours_prefixe(a->frere);
-
+    
+    
 }

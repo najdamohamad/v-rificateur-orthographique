@@ -52,14 +52,9 @@ elem element_copy_n(elem e, int n)
 {
     char* mot = calloc(n+1, sizeof(char));
 
-    assert(n < element_length(e));
+    assert(n <= element_length(e));
 
-    for(int i = 0; i< n; i++)
-    {
-        char temp = element_get(e, i);
-        strcat(mot, &temp);
-    }
-        
+    strncpy(mot, e->mot, n);
 
     strcat(mot, "\0");
     elem new = element_new(mot);
