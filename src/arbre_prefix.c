@@ -1,102 +1,72 @@
-#include "arbre_prefix.h"
+#include "arbre_bin.h"
 
-//FONCTIONS GENERIQUES
+bool recherche_arbre_prefixe(arbre a, elem e){
 
-noeud* creer_noeud(T elem, bool final)
-{
-    noeud* n = calloc(1, sizeof(*n));
+    arbre c = a;
+    int nb_fils = 0;
 
-    n->fils = liste_create();
-    n->val = elem;
-    n->final = final;
-
-    return n;
-}
-
-bool arbre_est_vide(arbre a)
-{
-    return a == NULL;
-}
-
-void detruire_arbre(arbre a)
-{
-    if(arbre_est_vide(a))
-        return;
-
-
-    detruire_arbre(a->fils->e);
-
-    liste_destroy(a->fils);
-    free(a);
-}
-
-// unsigned hauteur(arbre a)
-// {
-//     if(arbre_est_vide(a))
-//         return 0;
-    
-//     unsigned hd = 0, hg = 0;
-    
-//     if(!arbre_est_vide(a->filsDroit))
-//     {
-//         hd++;
-//         hd += hauteur(a->filsDroit);
-//     }
-//     if(!arbre_est_vide(a->filsGauche))
-//     {
-//         hg++;
-//         hg += hauteur(a->filsGauche);
-//     }
-
-//     return hd > hg ? hd : hg;
-// }
-
-// unsigned nb_noeuds(arbre a)
-// {
-//     if(arbre_est_vide(a))
-//         return 0;
-
-//     unsigned n = 1;
-    
-//     n += nb_noeuds(a->filsDroit);
-//     n += nb_noeuds(a->filsGauche);
+    while (!arbre_est_vide(c))
+    {   
         
-//     return n;
-// }
+        if(element_compare_n(c->val, e, nb_fils) == 0)
+        {
+            nb_fils ++ ;
+            //On vérifie que la prochaine lettre du mot n'est pas \0
+            if(element_get(e, nb_fils) == '\0')
+            {
+                if(c->final)
+                    return true;
+                else
+                    return false;
+            }
 
-// unsigned nb_feuilles(arbre a)
-// {
-//     if(arbre_est_vide(a))
-//         return 0;
-//     if(arbre_est_vide(a->filsGauche) && arbre_est_vide(a->filsDroit))
-//         return 1;
+            c = c->fils;
+        }
+        else
+            c = c->frere;
+    }
     
-//     unsigned n = 0;
+    return false;
+}
+
+void ajout_prefix(arbre a, elem e)
+{
+    arbre p, c = a;
+    bool est_frere = false;
+    int nb_fils = 0;
+
+    while (!arbre_est_vide(c))
+    {   
+        
+        if(element_compare_n(c->val, e, nb_fils) == 0)
+        {
+            nb_fils ++ ;
+            //On vérifie que la prochaine lettre du mot n'est pas \0
+            if(element_get(e, nb_fils) == '\0')
+            {
+                c->final = true;
+            }
+
+            est_frere = false;
+            p = c;
+            c = c->fils;
+        }
+        else
+        {
+            est_frere = true;
+            p = c;
+            c = c->frere;
+        }
+    }
     
-//     n += nb_feuilles(a->filsDroit);
-//     n += nb_feuilles(a->filsGauche);
     
-//     return n;
-// }
+    elem new = element_copy_n(e,nb_fils);
 
-// void parcours_prefixe(arbre a)
-// {
-//     if(arbre_est_vide(a))
-//         return;
 
-//     printf("(%d)->",a->val);
+    if(est_frere)
+        p->frere = creer_noeud(new);
+    else
+        p->fils = creer_noeud(new);
 
-//     parcours_prefixe(a->filsGauche);
-//     parcours_prefixe(a->filsDroit);
 
-// }
-
-// void ajouter_elem(T elem)
-// {
-
-// }
-
-// bool verif_elem(T elem)
-// {
-    
-// }
+}

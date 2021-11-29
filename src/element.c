@@ -1,8 +1,8 @@
 #include "element.h"
 
-T element_new(char* mot)
+elem element_new(char* mot)
 {
-    T e = calloc(1, sizeof(*e));
+    elem e = calloc(1, sizeof(*e));
     e->mot = malloc(strlen(mot) + 1);
 
     if (e->mot != NULL)
@@ -11,34 +11,55 @@ T element_new(char* mot)
     return e;
 }
 
-int element_compare(T e1, T e2)
+int element_compare(elem e1, elem e2)
 {
     return strcmp(e1->mot, e2->mot);
 }
 
-void element_print(T e)
+int element_compare_n(elem e1, elem e2, int n)
+{
+    return strncmp(e1->mot, e2->mot, n);
+}
+
+void element_print(elem e)
 {
     printf("%s",e->mot);
 }
 
-char element_get(T e, int i)
+char element_get(elem e, int i)
 {
     return e->mot[i];
 }
 
-void element_delete(T e)
+void element_delete(elem e)
 {
     free(e->mot);
     free(e);
 }
 
-int element_length(T e)
+int element_length(elem e)
 {
     return strlen(e->mot);
 }
 
-T element_copy(T e)
+elem element_copy(elem e)
 {
-    T new = element_new(e->mot);
+    elem new = element_new(e->mot);
+    return new;
+}
+
+elem element_copy_n(elem e, int n)
+{
+    char* mot = calloc(n+1, sizeof(char));
+
+    assert(n < element_length(e));
+
+    for(int i = 0; i< n; i++)
+        strcat(mot, element_get(e, i));
+
+    strcat(mot, "\0");
+    elem new = element_new(mot);
+
+    free(mot);
     return new;
 }

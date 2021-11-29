@@ -7,14 +7,15 @@
 
 typedef struct mot {
   char* mot;
-} *T;
+} *elem;
 
-T element_new(char* mot);
-int element_compare(T e1, T e2);
-void element_print(T e);
-char element_get(T e, int i);
-void element_delete(T e);
-int element_length(T e);
-T element_copy(T e);
+elem element_new(char* mot);
+int element_compare_n(elem e1, elem e2, int n);
+int element_compare(elem e1, elem e2);
+void element_print(elem e);
+char element_get(elem e, int i);
+void element_delete(elem e);
+int element_length(elem e);
+elem element_copy_n(elem e, int n);
 
 #endif

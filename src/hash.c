@@ -17,7 +17,7 @@ table_hachage hash_new(unsigned capacite)
     return ht;
 }
 
-int hash(T element, unsigned capacite)
+int hash(elem element, unsigned capacite)
 {
     int h = 0;
     int a = 33;
@@ -31,12 +31,12 @@ int hash(T element, unsigned capacite)
     return h % capacite;
 }
 
-bool hash_identiques(T element_1, T element_2)
+bool hash_identiques(elem element_1, elem element_2)
 {
     return element_compare(element_1, element_2);
 }
 
-bool hash_est_present(T element, table_hachage* ht)
+bool hash_est_present(elem element, table_hachage* ht)
 {
     int h = hash(element, ht->capacite);
     
@@ -45,7 +45,7 @@ bool hash_est_present(T element, table_hachage* ht)
     return liste_element_exist(element, l);
 }
 
-void hash_inserer_sans_redimensionner(T element, table_hachage* ht)
+void hash_inserer_sans_redimensionner(elem element, table_hachage* ht)
 {
     if(!hash_est_present(element, ht))
     {
@@ -55,7 +55,7 @@ void hash_inserer_sans_redimensionner(T element, table_hachage* ht)
     }
 }
 
-void hash_inserer_redimensionner(T element, table_hachage* ht)
+void hash_inserer_redimensionner(elem element, table_hachage* ht)
 {
     if(ht->nb_elements > 2*ht->capacite/3)
     {
