@@ -59,14 +59,27 @@ void ajout_prefix(arbre a, elem e)
         }
     }
     
+    //// a creer un premier elemeent 
     
     elem new = element_copy_n(e,nb_fils);
-
 
     if(est_frere)
         p->frere = creer_noeud(new);
     else
-        p->fils = creer_noeud(new);
+    {
+        while(!c->final)
+        {
+            p->fils = creer_noeud(new);
+            if(element_get(e, nb_fils) == '\0')
+            {
+                c->final = true;
+                break ;
+            }
+            new = element_copy_n(e,nb_fils++); 
+            p = c ;
+            c = c->fils ;
 
+        }
+            
 
 }
