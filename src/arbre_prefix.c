@@ -7,10 +7,11 @@ bool recherche_arbre_prefix(arbre a, elem e){
 
     while (!arbre_est_vide(c))
     {   
-        
-        if(element_compare_n(c->val, e, nb_fils) == 0)
+        //printf("%s : %d\n", c->val->mot, element_length(c->val));
+        if(element_compare_n(c->val, e, element_length(c->val)) == 0)
         {
-            nb_fils ++ ;
+            //printf("oui\n");
+            nb_fils = element_length(c->val);
             //On vérifie que la prochaine lettre du mot n'est pas \0
             if(element_get(e, nb_fils) == '\0')
             {
@@ -19,7 +20,6 @@ bool recherche_arbre_prefix(arbre a, elem e){
                 else
                     return false;
             }
-
             c = c->fils;
         }
         else
@@ -90,6 +90,6 @@ void ajout_prefix(arbre* a, elem e)
         c = &((*c)->fils);
     }
 
-    (*p)->final = true;
+    (*c)->final = true;
             
 }

@@ -29,6 +29,6 @@ $(BIN_DIR)/%: $(EXE_DIR)/%.c | $(BIN_DIR)
 $(BIN_DIR):
 	mkdir $@
 
-clean:
+clear:
 	rm -rf $(BIN_DIR)
 	rm -f gmon.out

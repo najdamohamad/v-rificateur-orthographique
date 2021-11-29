@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arbre_prefix.h"
-
+#include "arbre_radix.h"
 int main(void)
 {
     arbre a = NULL;
@@ -22,6 +22,18 @@ int main(void)
     ajout_prefix(&a, e3);
     ajout_prefix(&a, e5);
 
+    parcours_prefixe(a);
+
+    printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boom %d, cout %d, a %d\n",   
+                                        recherche_arbre_prefix(a , e1), 
+                                        recherche_arbre_prefix(a , e2),
+                                        recherche_arbre_prefix(a , e3),
+                                        recherche_arbre_prefix(a , e4),
+                                        recherche_arbre_prefix(a , e5),
+                                        recherche_arbre_prefix(a , e6),
+                                        recherche_arbre_prefix(a , e7));
+
+    transform_prefix_into_radix(&a);
     parcours_prefixe(a);
 
     printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boom %d, cout %d, a %d\n",   
