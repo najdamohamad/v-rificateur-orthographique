@@ -29,4 +29,6 @@ unsigned nb_noeuds(arbre a);
 unsigned nb_feuilles(arbre a);
 void parcours_prefixe(arbre a);
 
+int noeud_cmp(void* a1, void* a2);
+
 #endif

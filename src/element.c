@@ -3,7 +3,7 @@
 elem element_new(char* mot)
 {
     elem e = calloc(1, sizeof(*e));
-    e->mot = malloc(strlen(mot) + 1);
+    e->mot = calloc(strlen(mot) + 1, sizeof(char));
 
     if (e->mot != NULL)
        strcpy(e->mot, mot);
@@ -11,9 +11,9 @@ elem element_new(char* mot)
     return e;
 }
 
-int element_compare(elem e1, elem e2)
+int element_compare(void* e1, void* e2)
 {
-    return strcmp(e1->mot, e2->mot);
+    return strcmp(((elem)e1)->mot, ((elem)e2)->mot);
 }
 
 int element_compare_n_to_m(elem e1, elem e2, int n, int m)
@@ -33,9 +33,9 @@ char element_get(elem e, int i)
     return e->mot[i];
 }
 
-void element_delete(elem e)
+void element_delete(void* e)
 {
-    free(e->mot);
+    free(((elem)e)->mot);
     free(e);
 }
 

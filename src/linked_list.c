@@ -41,16 +41,16 @@ void liste_add_last(void* e , liste* l)
 
 }
 
-bool liste_element_exist( void* e , liste l)
+void* liste_element_exist( void* e , liste l, int (cmp_func) (void*, void*))
 {
     liste copy_l = l ;
     while (copy_l != NULL )
     {
-        if(element_compare(copy_l->e, e) == 0)
-            return true ;
+        if(cmp_func(copy_l->e, e) == 0)
+            return copy_l->e ;
         copy_l = copy_l->next ;
     }
-    return false ;
+    return NULL ;
     
 }
 
@@ -62,7 +62,7 @@ void liste_add_first(void* e, liste* l)
     *l = new_element ;
 }
 
-void liste_destroy(liste l)
+void liste_destroy(liste l, void (del_func)(void*))
 {
     if(l == NULL)
     {
@@ -76,13 +76,12 @@ void liste_destroy(liste l)
         {
             ptr_next = ptr->next;
 
-            element_delete(ptr->e);
+            del_func(ptr->e);
             free(ptr);
 
             ptr = ptr_next;
         }
     }
-    free(l);
 }
 
 void* liste_get_element(liste l, int indice)
@@ -98,7 +97,7 @@ bool verifListe(char* mot, void* struct_donne)
 {
     elem e = element_new(mot);
 
-    if(!liste_element_exist(e, struct_donne))
+    if(!liste_element_exist(e, struct_donne, element_compare))
     {
         //printf("%s incorrect\n", mot);
         element_delete(e);

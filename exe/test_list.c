@@ -18,7 +18,7 @@ int main(void)
     liste_add_last(element_new("6"), &ltest);
 
     liste_afficher(ltest);
-    liste_destroy(ltest);
+    liste_destroy(ltest, element_delete);
 
     return 0;
 }

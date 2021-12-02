@@ -8,7 +8,7 @@
 
 //PARAMETERS
 //Nombre de mots a lire : -1 pour tout lire
-#define N -1
+#define N 100
 
 // void test(char* mot, void* unused)
 // {
@@ -72,13 +72,14 @@ int main(int argc, char *argv[])
         nb_error = lecture(texte, l, verifListe, N , &total);
         
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
+    printf("size : %ld\n", sizeof(l));
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Liberation mémoire
     fclose(dictionnaire);
     fclose(texte);
-    liste_destroy(l);
+    liste_destroy(l, element_delete);
 
     printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
     printf("--- FIN TEST LISTE\n");
@@ -101,6 +102,7 @@ int main(int argc, char *argv[])
     begin = clock();
     nb_error = lecture(texte, &ht, verifHash, N , &total);
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
+    printf("size : %ld\n", sizeof(ht));
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -130,6 +132,7 @@ int main(int argc, char *argv[])
     begin = clock();
     nb_error = lecture(texte, a, verifArbre, N , &total);
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
+    printf("size : %ld\n", sizeof(a));
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
 
@@ -156,6 +159,7 @@ int main(int argc, char *argv[])
     begin = clock();
     nb_error = lecture(texte, a, verifArbre, N , &total);
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
+    printf("size : %ld\n", sizeof(a));
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Liberation mémoire

@@ -8,9 +8,12 @@ bool recherche_arbre_prefix(arbre a, elem e){
     while (!arbre_est_vide(c))
     {   
         e_l = element_length(c->val);
-        if(element_compare_n_to_m(c->val, e, nb_fils, e_l) == 0)
+
+        //printf("cmp %s et %s taille %d, %d\n", c->val->mot, e->mot + nb_fils, e_l, c->val->mot[strlen(c->val->mot)-1]);
+
+        if(strncmp(c->val->mot, e->mot + nb_fils, e_l) == 0)
         {
-            nb_fils = e_l;
+            nb_fils += e_l;
             //On vérifie que la prochaine lettre du mot n'est pas \0
             if(element_get(e, nb_fils) == '\0')
             {
@@ -36,7 +39,7 @@ void ajout_prefix(arbre* a, elem e)
 
     while (!arbre_est_vide(*c))
     {
-        if(element_compare_n_to_m((*c)->val, e, nb_fils, nb_fils+1) == 0)
+        if(element_get((*c)->val, 0) == element_get(e, nb_fils))
         {
             //On vérifie que la prochaine lettre du mot n'est pas \0
             if(element_get(e, ++nb_fils) == '\0')
@@ -59,7 +62,11 @@ void ajout_prefix(arbre* a, elem e)
         
     
     //premier cas depend de la position du precedent
-    elem new = element_copy_n(e, ++nb_fils);
+    char *pChar = calloc(2, sizeof(char));
+    
+    *pChar = element_get(e, nb_fils);
+    elem new = element_new(pChar);
+
     if(*a == NULL)
     {
         *a = creer_noeud(new);
@@ -79,16 +86,17 @@ void ajout_prefix(arbre* a, elem e)
     }
 
     //le reste est forcement fils
-    while(element_get(e, nb_fils) != '\0')
+    while(element_get(e, ++nb_fils) != '\0')
     {
-        nb_fils++;
-        new = element_copy_n(e, nb_fils);
+        *pChar = element_get(e, nb_fils);
+        new = element_new(pChar);
         (*c)->fils = creer_noeud(new);
         p = c;
         c = &((*c)->fils);
     }
 
     (*c)->final = true;
+    free(pChar);
             
 }
 

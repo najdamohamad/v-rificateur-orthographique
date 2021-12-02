@@ -10,9 +10,9 @@ int main(void)
     elem e2 = element_new("salut");
     elem e3 = element_new("couture");
     elem e4 = element_new("s");
-    elem e5 = element_new("boom");
-    elem e6 = element_new("cout");
-    elem e7 = element_new("a");
+    elem e5 = element_new("boomttes");
+    elem e6 = element_new("boom");
+    elem e7 = element_new("couturettes");
 
     
     //ajout_prefix(&a, e2);
@@ -21,10 +21,11 @@ int main(void)
     ajout_prefix(&a, e1);
     ajout_prefix(&a, e3);
     ajout_prefix(&a, e5);
+    ajout_prefix(&a, e6);
 
-    parcours_prefixe(a);
+    parcours_prefixe(a); printf("\n");
 
-    printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boom %d, cout %d, a %d\n",   
+    printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boomttes %d, boom %d, couturette %d\n",   
                                         recherche_arbre_prefix(a , e1), 
                                         recherche_arbre_prefix(a , e2),
                                         recherche_arbre_prefix(a , e3),
@@ -34,7 +35,15 @@ int main(void)
                                         recherche_arbre_prefix(a , e7));
 
     transform_prefix_into_radix(&a);
-    parcours_prefixe(a);
+    parcours_prefixe(a); printf("\n");
+
+    liste f = liste_create();
+    liste duplic = liste_create();
+    
+    partage_prefix(&a, &f, &duplic);
+    //liste_destroy(f, NULL);
+
+    parcours_prefixe(a); printf("\n");
 
     printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boom %d, cout %d, a %d\n",   
                                         recherche_arbre_prefix(a , e1), 
@@ -53,7 +62,10 @@ int main(void)
     element_delete(e6);
     element_delete(e7);
 
+    
+    
+    detruire_arbre_radix(&a, duplic);
+    liste_destroy(duplic, radix_list_delete);
 
-    detruire_arbre(a);
     return EXIT_SUCCESS;
 }

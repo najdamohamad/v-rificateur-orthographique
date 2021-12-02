@@ -42,7 +42,7 @@ bool hash_est_present(elem element, table_hachage* ht)
     
     liste l = ht->table[h];
     
-    return liste_element_exist(element, l);
+    return liste_element_exist(element, l, element_compare);
 }
 
 void hash_inserer_sans_redimensionner(elem element, table_hachage* ht)
@@ -98,7 +98,7 @@ void hash_destroy(table_hachage* ht)
     unsigned int i;
     for(i=0;i<ht->capacite;i++)
     {
-        liste_destroy(ht->table[i]);
+        liste_destroy(ht->table[i], element_delete);
     }
     free(ht->table);
 }

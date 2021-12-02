@@ -108,3 +108,8 @@ void parcours_prefixe(arbre a)
     
     
 }
+
+int noeud_cmp(void* a1, void* a2)
+{
+    return element_compare((*((arbre*)a1))->val, (*((arbre*)a2))->val);
+}
