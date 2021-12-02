@@ -104,12 +104,10 @@ void parcours_prefixe(arbre a)
     printf(")->");
 
     parcours_prefixe(a->fils);
-    parcours_prefixe(a->frere);
-    
-    
+    parcours_prefixe(a->frere);   
 }
 
 int noeud_cmp(void* a1, void* a2)
 {
-    return element_compare((*((arbre*)a1))->val, (*((arbre*)a2))->val);
+    return element_compare(((arbre)a1)->val, ((arbre)a2)->val);
 }

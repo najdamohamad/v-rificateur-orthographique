@@ -30,73 +30,109 @@ void transform_prefix_into_radix(arbre* a)
     }
 }
 
-void partage_prefix(arbre* a, liste* alr_meet, liste* duplic)
+void chuuuuuu(void* e)
 {
-    if(*a == NULL)
-        return;
+    return;
+}
+
+
+arbre partage_prefix(arbre a, liste* alr_meet, liste* duplic)
+{
+    if(a == NULL)
+        return NULL;
     
-    partage_prefix(&((*a)->fils), alr_meet, duplic);
-    partage_prefix(&((*a)->frere), alr_meet, duplic);
+    a->frere = partage_prefix(a->frere, alr_meet, duplic);
+    a->fils = partage_prefix(a->fils, alr_meet, duplic);
+    
+    a->prefix = prefix_conc(a);
+    
+    if(a->final == false)
+        return a;
 
-    if((*a)->final == false)
-        return;
-
-    arbre* noeud = liste_element_exist(a, *alr_meet, noeud_cmp);
-    printf("mot : %s", (*a)->val->mot);
-    getchar();
+    arbre noeud = liste_element_exist(a, *alr_meet, prefix_compare);
+    printf("mot : %s, prefix : %s\n", a->val->mot, a->prefix->mot);
 
     if(noeud == NULL)
     {
         liste_add_first(a, alr_meet);
-        printf("add list : %s\n", (*a)->val->mot);
+        return a;
     }
     else
     {
-        liste_add_first(noeud, duplic);
-        arbre tmp = *a;
-
-        //on ajoute les frères du fils a la suite du nouveau fils
-        arbre* t = &(*noeud)->fils;
+        if(liste_element_exist(noeud, *duplic, prefix_compare) == NULL)
+            liste_add_first(noeud, duplic);
         
-        if(*t != NULL)
+        printf("%p\n", noeud);
+
+        arbre* a_tmp = &noeud;
+        while ((*a_tmp)->frere !=NULL)
         {
-            printf("%s\n", (*t)->val->mot);
-            while ((*t)->frere != NULL)
-            {
-                t = &(*t)->frere;
-            }
-            (*t)->frere = (*a)->fils;
+            a_tmp = &(*a_tmp)->frere;
         }
+        (*a_tmp)->frere = a->frere;
 
-        a = noeud;
-
-        element_delete(tmp->val);
-        free(tmp);
+        element_delete(a->val);
+        element_delete(a->prefix);
+        free(a);
+        
+        return noeud;
     }
         
+}
+
+elem prefix_conc(arbre a)
+{
+    char concaten[30000];
+    concaten[0] = 0;
+    arbre tmp;
+
+    if(a != NULL)
+    {
+        //Pour éviter de faire les frères de a
+        strcat(concaten, a->val->mot);
+        a = a->fils;
+    }
+    while (a != NULL)
+    {
+        tmp = a;
+        while (tmp != NULL)
+        {
+            strcat(concaten, tmp->val->mot);
+            tmp = tmp->frere;
+        }
+        a = a->fils;
+    }
+    
+    elem new = element_new(concaten);
+    return new;
 }
 
 void radix_list_delete(void* e)
 {
-    printf("%p : %s\n", e, ((*(arbre*)e))->val->mot);
-    element_delete((*((arbre*)e))->val);
-    free(*((arbre*)e));
+    element_delete(((arbre)e)->val);
+    element_delete(((arbre)e)->prefix);
+    free((arbre)e);
 }
 
-void detruire_arbre_radix(arbre* a, liste l)
+void detruire_arbre_radix(arbre a, liste l)
 {
-    if(arbre_est_vide(*a))
+    if(arbre_est_vide(a))
         return;
 
-    detruire_arbre_radix(&(*a)->frere, l);
-    detruire_arbre_radix(&(*a)->fils, l);
+    arbre noeud = liste_element_exist(a, l, noeud_cmp);
 
-    arbre* noeud = liste_element_exist(a, l, noeud_cmp);
-
-    printf("noed : %p\n", noeud);
     if(noeud == NULL)
     {
-        element_delete((*a)->val);
-        free(*a);
+        detruire_arbre_radix(a->frere, l);
+        detruire_arbre_radix(a->fils, l);
+
+        element_delete(a->val);
+        element_delete(a->prefix);
+        free(a);
     }
+}
+
+int prefix_compare(void* e1, void* e2)
+{
+    return element_compare(((arbre)e1)->prefix, ((arbre)e2)->prefix);
 }

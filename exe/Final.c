@@ -8,14 +8,13 @@
 
 //PARAMETERS
 //Nombre de mots a lire : -1 pour tout lire
-#define N 100
+#define N 50
 
-// void test(char* mot, void* unused)
-// {
-//     unused = unused;
-//     printf("%s\n", mot);
-//     //getchar();
-// }
+void test(char* mot, void* unused)
+{
+    printf("%s\n", mot);
+    //getchar();
+}
 
 int main(int argc, char *argv[])
 {
@@ -149,9 +148,12 @@ int main(int argc, char *argv[])
     texte = fopen(argv[2], "r");
     begin = clock();
 
-    //parcours_prefixe(a);
     transform_prefix_into_radix(&a);
-    //parcours_prefixe(a);
+    
+    //Compression des suffixes
+    liste f = liste_create(), duplic = liste_create();
+    a = partage_prefix(a, &f, &duplic);
+    liste_destroy(f, chuuuuuu);
 
     time_ms_dico += (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -165,7 +167,8 @@ int main(int argc, char *argv[])
     //Liberation mémoire
     
     fclose(texte);
-    detruire_arbre(a);
+    detruire_arbre_radix(a, duplic);
+    liste_destroy(duplic, radix_list_delete);
 
     printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
     printf("--- FIN TEST RADIX\n");

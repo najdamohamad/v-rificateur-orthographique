@@ -40,12 +40,12 @@ int main(void)
     liste f = liste_create();
     liste duplic = liste_create();
     
-    partage_prefix(&a, &f, &duplic);
-    //liste_destroy(f, NULL);
+    a = partage_prefix(a, &f, &duplic);
+    liste_destroy(f, chuuuuuu);
 
     parcours_prefixe(a); printf("\n");
 
-    printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boom %d, cout %d, a %d\n",   
+    printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boomttes %d, boom %d, couturette %d\n",   
                                         recherche_arbre_prefix(a , e1), 
                                         recherche_arbre_prefix(a , e2),
                                         recherche_arbre_prefix(a , e3),
@@ -64,7 +64,7 @@ int main(void)
 
     
     
-    detruire_arbre_radix(&a, duplic);
+    detruire_arbre_radix(a, duplic);
     liste_destroy(duplic, radix_list_delete);
 
     return EXIT_SUCCESS;

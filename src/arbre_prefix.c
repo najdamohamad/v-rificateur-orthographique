@@ -118,4 +118,5 @@ void lectureArbre(char* mot, void* struct_donne)
 {
     elem e = element_new(mot);
     ajout_prefix(struct_donne, e);
+    element_delete(e);
 }
