@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
     //Vérification du texte
     begin = clock();
-    if(N > 1000)//On limite car trop de temps
+    if(N > 1000 || N == -1)//On limite car trop de temps
         nb_error = lecture(texte, l, verifListe, 1000, &total);
     else
         nb_error = lecture(texte, l, verifListe, N , &total);

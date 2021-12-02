@@ -82,6 +82,7 @@ void liste_destroy(liste l)
             ptr = ptr_next;
         }
     }
+    free(l);
 }
 
 void* liste_get_element(liste l, int indice)
