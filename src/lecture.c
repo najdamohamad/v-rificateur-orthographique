@@ -32,13 +32,15 @@ int lecture(FILE* texte, void* struct_donne, bool (func)(char*, void*), int nb_m
             if(mots[i] == NULL)
                 printf("\nERREUR LECTURE\n");
             
-            //To lower case
-            for(int j = 0; mots[i][j]; j++){
-                mots[i][j] = tolower(mots[i][j]);
-            }
-            
-            if(!func(mots[i], struct_donne))
+
+            if(mots[i][0] >= 'A' && mots[i][0] <= 'Z'){
                 nb_error++;
+            }
+            else
+            {
+                if(!func(mots[i], struct_donne))
+                    nb_error++;
+            }
         }
 
         free_tab_char(mots, nb_words);

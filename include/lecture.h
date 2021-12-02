@@ -10,8 +10,8 @@
 #include <ctype.h>
 
 //CONSTANT
-#define MAX_CARAC_PER_LINE 5000
-#define WORDS_SEPARATORS " ,.:;!?/\n\\\"\'-()"
+#define MAX_CARAC_PER_LINE 20000
+#define WORDS_SEPARATORS " ,.:;!?/\n\\\"\'-()_*`‘"
 #define END_OF_FILE -1
 #define MAX_CARAC_WORD 27
 

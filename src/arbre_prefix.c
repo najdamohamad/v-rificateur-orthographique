@@ -98,7 +98,7 @@ bool verifArbre(char* mot, void* struct_donne)
 
     if(!recherche_arbre_prefix(struct_donne, e))
     {
-        //printf("%s incorrect\n", mot);
+        printf("%s\n", mot);
         element_delete(e);
         return false;
     }

@@ -8,7 +8,7 @@
 
 //PARAMETERS
 //Nombre de mots a lire : -1 pour tout lire
-#define N 100
+#define N -1
 
 // void test(char* mot, void* unused)
 // {
@@ -62,11 +62,14 @@ int main(int argc, char *argv[])
     lecture_dico(dictionnaire, &l, lectureListe);
     
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
-    printf("Temps dico (ms): %ld\n", time_ms_dico);
 
     //Vérification du texte
     begin = clock();
-    nb_error = lecture(texte, l, verifListe, N);
+    if(N > 1000)//On limite car trop de temps
+        nb_error = lecture(texte, l, verifListe, 1000);
+    else
+        nb_error = lecture(texte, l, verifListe, N);
+        
     printf("nombre d'erreurs : %d\n", nb_error);
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
@@ -92,7 +95,6 @@ int main(int argc, char *argv[])
     lecture_dico(dictionnaire, &ht, lectureHash);
 
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
-    printf("Temps dico (ms): %ld\n", time_ms_dico);
 
     //Vérification du texte
     begin = clock();
@@ -122,7 +124,6 @@ int main(int argc, char *argv[])
     lecture_dico(dictionnaire, &a, lectureArbre);
 
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
-    printf("Temps dico (ms): %ld\n", time_ms_dico);
 
     //Vérification du texte
     begin = clock();
@@ -149,7 +150,6 @@ int main(int argc, char *argv[])
     //parcours_prefixe(a);
 
     time_ms_dico += (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
-    printf("Temps dico (ms): %ld\n", time_ms_dico);
 
     //Vérification du texte
     begin = clock();
