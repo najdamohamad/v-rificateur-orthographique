@@ -66,12 +66,12 @@ int main(int argc, char *argv[])
 
     //Vérification du texte
     begin = clock();
-    if(N > 1000 || N == -1)//On limite car trop de temps
+    if(N > 1000 || N == -1 )//On limite car trop de temps
         nb_error = lecture(texte, l, verifListe, 1000, &total);
     else
         nb_error = lecture(texte, l, verifListe, N , &total);
         
-    printf("nombre d'erreurs : %d sur %d  /n", nb_error , total);
+    printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
     //Vérification du texte
     begin = clock();
     nb_error = lecture(texte, &ht, verifHash, N , &total);
-    printf("nombre d'erreurs : %d sur %d  /n", nb_error , total);
+    printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
     //Vérification du texte
     begin = clock();
     nb_error = lecture(texte, a, verifArbre, N , &total);
-    printf("nombre d'erreurs : %d sur %d  /n", nb_error , total);
+    printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
 
@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
     //Vérification du texte
     begin = clock();
     nb_error = lecture(texte, a, verifArbre, N , &total);
-    printf("nombre d'erreurs : %d sur %d  /n", nb_error , total);
+    printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Liberation mémoire
