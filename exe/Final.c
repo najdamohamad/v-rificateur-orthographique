@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
     //********************************************TESTS********************************************
     clock_t begin;
     unsigned long time_ms_dico,time_ms_verif;
+    int nb_error;
 
     //************* METHODE 1 : Linked list
     
@@ -65,7 +66,8 @@ int main(int argc, char *argv[])
 
     //Vérification du texte
     begin = clock();
-    lecture(texte, l, verifListe, N);
+    nb_error = lecture(texte, l, verifListe, N);
+    printf("nombre d'erreurs : %d\n", nb_error);
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -94,7 +96,8 @@ int main(int argc, char *argv[])
 
     //Vérification du texte
     begin = clock();
-    lecture(texte, &ht, verifHash, N);
+    nb_error = lecture(texte, &ht, verifHash, N);
+    printf("nombre d'erreurs : %d\n", nb_error);
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -123,7 +126,8 @@ int main(int argc, char *argv[])
 
     //Vérification du texte
     begin = clock();
-    lecture(texte, a, verifArbre, N);
+    nb_error = lecture(texte, a, verifArbre, N);
+    printf("nombre d'erreurs : %d\n", nb_error);
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
 
@@ -149,7 +153,8 @@ int main(int argc, char *argv[])
 
     //Vérification du texte
     begin = clock();
-    lecture(texte, a, verifArbre, N);
+    nb_error = lecture(texte, a, verifArbre, N);
+    printf("nombre d'erreurs : %d\n", nb_error);
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Liberation mémoire

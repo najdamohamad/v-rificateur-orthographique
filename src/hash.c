@@ -103,15 +103,18 @@ void hash_destroy(table_hachage* ht)
     free(ht->table);
 }
 
-void verifHash(char* mot, void* struct_donne)
+bool verifHash(char* mot, void* struct_donne)
 {
     elem e = element_new(mot);
+
     if(!hash_est_present(e, struct_donne))
     {
-        printf("%s incorrect\n", mot);
+        //printf("%s incorrect\n", mot);
+        element_delete(e);
+        return false;
     }
-
     element_delete(e);
+    return true;
 }
 
 void lectureHash(char* mot, void* struct_donne)

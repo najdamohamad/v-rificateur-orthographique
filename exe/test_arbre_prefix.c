@@ -47,6 +47,12 @@ int main(void)
 
     element_delete(e1);
     element_delete(e2);
+    element_delete(e3);
+    element_delete(e4);
+    element_delete(e5);
+    element_delete(e6);
+    element_delete(e7);
+
 
     detruire_arbre(a);
     return EXIT_SUCCESS;

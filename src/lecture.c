@@ -16,10 +16,11 @@ void lecture_dico(FILE* dico, void* struct_donne, void (func)(char*, void*))
 
 //Fonction générique de vérification de fichier texte
 //Paramètres : le texte et la fonction spécifique de vérification de correcte écriture
-void lecture(FILE* texte, void* struct_donne, void (func)(char*, void*), int nb_max)
+int lecture(FILE* texte, void* struct_donne, bool (func)(char*, void*), int nb_max)
 {
     int nb_words = 0, nb_word_total = 0;
     char ** mots;
+    int nb_error = 0;
 
     while (nb_words != END_OF_FILE && (nb_word_total < nb_max || nb_max == -1))
     {
@@ -36,13 +37,14 @@ void lecture(FILE* texte, void* struct_donne, void (func)(char*, void*), int nb_
                 mots[i][j] = tolower(mots[i][j]);
             }
             
-            func(mots[i], struct_donne);
+            if(!func(mots[i], struct_donne))
+                nb_error++;
         }
 
         free_tab_char(mots, nb_words);
     }
 
-    printf("\nFin lecture\n");
+    return nb_error;
 }
 
 void free_tab_char(char** c, int nb)

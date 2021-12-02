@@ -8,7 +8,7 @@ bool recherche_arbre_prefix(arbre a, elem e){
     while (!arbre_est_vide(c))
     {   
         e_l = element_length(c->val);
-        if(element_compare_n_to_m(c->val, e, nb_fils, e_l-nb_fils) == 0)
+        if(element_compare_n_to_m(c->val, e, nb_fils, e_l) == 0)
         {
             nb_fils = e_l;
             //On vérifie que la prochaine lettre du mot n'est pas \0
@@ -92,16 +92,18 @@ void ajout_prefix(arbre* a, elem e)
             
 }
 
-void verifArbre(char* mot, void* struct_donne)
+bool verifArbre(char* mot, void* struct_donne)
 {
     elem e = element_new(mot);
-    
+
     if(!recherche_arbre_prefix(struct_donne, e))
     {
-        printf("%s incorrect\n", mot);
+        //printf("%s incorrect\n", mot);
+        element_delete(e);
+        return false;
     }
-
     element_delete(e);
+    return true;
 }
 
 void lectureArbre(char* mot, void* struct_donne)

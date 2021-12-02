@@ -18,7 +18,7 @@ int element_compare(elem e1, elem e2)
 
 int element_compare_n_to_m(elem e1, elem e2, int n, int m)
 {
-    if(strlen(e1->mot) < n+m || strlen(e2->mot) < n+m)
+    if(strlen(e1->mot) < (long unsigned int)m || strlen(e2->mot) < (long unsigned int)m)
         return -1;
     return strncmp(e1->mot+n, e2->mot+n, m-n);
 }
