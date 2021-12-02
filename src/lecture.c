@@ -18,7 +18,6 @@ void lecture_dico(FILE* dico, void* struct_donne, void (func)(char*, void*))
 //Paramètres : le texte et la fonction spécifique de vérification de correcte écriture
 int lecture(FILE* texte, void* struct_donne, bool (func)(char*, void*), int nb_max, int* total )
 {
-    total = NULL ;
     int nb_words = 0, nb_word_total = 0;
     char ** mots;
     int nb_error = 0;
@@ -35,14 +34,14 @@ int lecture(FILE* texte, void* struct_donne, bool (func)(char*, void*), int nb_m
                 printf("\nERREUR LECTURE\n");
             
 
-            if(mots[i][0] >= 'A' && mots[i][0] <= 'Z'){
-                nb_error++;
-            }
-            else
+            //On vérifie uniquement les mots commençant par une minuscule
+            if(mots[i][0] >= 'a' && mots[i][0] <= 'z')
             {
                 if(!func(mots[i], struct_donne))
                     nb_error++;
             }
+            else
+                nb_word_total--;
         }
 
         free_tab_char(mots, nb_words);

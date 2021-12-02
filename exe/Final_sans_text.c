@@ -61,7 +61,8 @@ int main(int argc, char *argv[])
 
 
     //Vérification du texte
-    lecture(texte, a, verifArbre, N);
+    int nb;
+    lecture(texte, a, verifArbre, N, &nb);
 
 
     //Liberation mémoire
