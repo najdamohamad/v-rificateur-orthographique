@@ -11,4 +11,7 @@
 bool recherche_arbre_prefix(arbre a , elem e);
 void ajout_prefix(arbre* a, elem e);
 
+void verifArbre(char* mot, void* struct_donne);
+void lectureArbre(char* mot, void* struct_donne);
+
 #endif

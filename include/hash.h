@@ -29,4 +29,6 @@ void hash_afficher_table(table_hachage* ht);
 void hash_destroy(table_hachage* ht);
 void hash_inserer_redimensionner(elem element, table_hachage* ht);
 
+void lectureHash(char* mot, void* struct_donne);
+void verifHash(char* mot, void* struct_donne);
 #endif

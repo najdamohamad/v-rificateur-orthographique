@@ -16,9 +16,11 @@ int element_compare(elem e1, elem e2)
     return strcmp(e1->mot, e2->mot);
 }
 
-int element_compare_n(elem e1, elem e2, int n)
+int element_compare_n_to_m(elem e1, elem e2, int n, int m)
 {
-    return strncmp(e1->mot, e2->mot, n);
+    if(strlen(e1->mot) < n+m || strlen(e2->mot) < n+m)
+        return -1;
+    return strncmp(e1->mot+n, e2->mot+n, m-n);
 }
 
 void element_print(elem e)

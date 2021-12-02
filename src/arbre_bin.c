@@ -99,6 +99,8 @@ void parcours_prefixe(arbre a)
 
     printf("(");
     element_print(a->val);
+    if(a->final)
+        printf(" f"); 
     printf(")->");
 
     parcours_prefixe(a->fils);

@@ -3,15 +3,14 @@
 bool recherche_arbre_prefix(arbre a, elem e){
 
     arbre c = a;
-    int nb_fils = 1;
+    int nb_fils = 0, e_l;
 
     while (!arbre_est_vide(c))
     {   
-        //printf("%s : %d\n", c->val->mot, element_length(c->val));
-        if(element_compare_n(c->val, e, element_length(c->val)) == 0)
+        e_l = element_length(c->val);
+        if(element_compare_n_to_m(c->val, e, nb_fils, e_l-nb_fils) == 0)
         {
-            //printf("oui\n");
-            nb_fils = element_length(c->val);
+            nb_fils = e_l;
             //On vérifie que la prochaine lettre du mot n'est pas \0
             if(element_get(e, nb_fils) == '\0')
             {
@@ -33,15 +32,14 @@ void ajout_prefix(arbre* a, elem e)
 {
     arbre* p = a,* c = a;
     bool est_frere = false;
-    int nb_fils = 1;
+    int nb_fils = 0;
 
     while (!arbre_est_vide(*c))
     {
-        if(element_compare_n((*c)->val, e, nb_fils) == 0)
+        if(element_compare_n_to_m((*c)->val, e, nb_fils, nb_fils+1) == 0)
         {
-            nb_fils++;
             //On vérifie que la prochaine lettre du mot n'est pas \0
-            if(element_get(e, nb_fils) == '\0')
+            if(element_get(e, ++nb_fils) == '\0')
             {
                 (*c)->final = true;
                 return;
@@ -61,7 +59,7 @@ void ajout_prefix(arbre* a, elem e)
         
     
     //premier cas depend de la position du precedent
-    elem new = element_copy_n(e, nb_fils);
+    elem new = element_copy_n(e, ++nb_fils);
     if(*a == NULL)
     {
         *a = creer_noeud(new);
@@ -79,11 +77,11 @@ void ajout_prefix(arbre* a, elem e)
             p = &(*p)->fils;
         }
     }
-    
 
     //le reste est forcement fils
-    while(element_get(e, nb_fils++) != '\0')
+    while(element_get(e, nb_fils) != '\0')
     {
+        nb_fils++;
         new = element_copy_n(e, nb_fils);
         (*c)->fils = creer_noeud(new);
         p = c;
@@ -92,4 +90,22 @@ void ajout_prefix(arbre* a, elem e)
 
     (*c)->final = true;
             
+}
+
+void verifArbre(char* mot, void* struct_donne)
+{
+    elem e = element_new(mot);
+    
+    if(!recherche_arbre_prefix(struct_donne, e))
+    {
+        printf("%s incorrect\n", mot);
+    }
+
+    element_delete(e);
+}
+
+void lectureArbre(char* mot, void* struct_donne)
+{
+    elem e = element_new(mot);
+    ajout_prefix(struct_donne, e);
 }

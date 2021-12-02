@@ -4,6 +4,11 @@
 #include "lecture.h"
 #include "hash.h"
 #include "linked_list.h"
+#include "arbre_radix.h"
+
+//PARAMETERS
+//Nombre de mots a lire : -1 pour tout lire
+#define N 100
 
 // void test(char* mot, void* unused)
 // {
@@ -12,38 +17,6 @@
 //     //getchar();
 // }
 
-void lectureHash(char* mot, void* struct_donne)
-{
-    elem e = element_new(mot);
-    hash_inserer_redimensionner(e, struct_donne);
-}
-
-void lectureListe(char* mot, void* struct_donne)
-{
-    elem e = element_new(mot);
-    liste_add_first(e, struct_donne);
-}
-
-void verifHash(char* mot, void* struct_donne)
-{
-    elem e = element_new(mot);
-    if(!hash_est_present(e, struct_donne))
-    {
-        printf("%s incorrect\n", mot);
-    }
-
-    element_delete(e);
-}
-
-void verifListe(char* mot, void* struct_donne)
-{
-    elem e = element_new(mot);
-    if(!liste_element_exist(e, struct_donne))
-    {
-        printf("%s incorrect\n", mot);
-    }
-    element_delete(e);
-}
 int main(int argc, char *argv[])
 {
     //Vérifie que le programme est bien lancé avec 2 arguments
@@ -79,56 +52,51 @@ int main(int argc, char *argv[])
     clock_t begin;
     unsigned long time_ms_dico,time_ms_verif;
 
-    //*************METHODE 1 : Linked list
-
-
-      begin = clock();
-
-    liste l = liste_create() ;
+    //************* METHODE 1 : Linked list
+    
     //Lecture du dictionnaire
-    printf("Debut lecture...\n");
+    printf("--- DEBUT TEST LISTE\n");
+    begin = clock();
+    liste l = liste_create() ;
     lecture_dico(dictionnaire, &l, lectureListe);
+    
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
     printf("Temps dico (ms): %ld\n", time_ms_dico);
 
     //Vérification du texte
     begin = clock();
-    lecture(texte, l, verifListe);
+    lecture(texte, l, verifListe, N);
+
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
-    //Debug : affichage
-    //liste_afficher(l);
     //Liberation mémoire
     fclose(dictionnaire);
     fclose(texte);
     liste_destroy(l);
 
     printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
-    printf("\nFIN DU TEST LISTE\n");
+    printf("--- FIN TEST LISTE\n");
 
-    // fclose(dictionnaire);
-    // fclose(texte);
     
-    //*************METHODE 2 : TABLE DE HASHAGE
-
+    //************* METHODE 2 : TABLE DE HASHAGE
+    printf("--- DEBUT TEST HASH\n");
     dictionnaire = fopen(argv[1], "r");
     texte = fopen(argv[2], "r");
     begin = clock();
 
     table_hachage ht = hash_new(1);
+
     //Lecture du dictionnaire
-    printf("Debut lecture...\n");
     lecture_dico(dictionnaire, &ht, lectureHash);
+
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
     printf("Temps dico (ms): %ld\n", time_ms_dico);
 
     //Vérification du texte
     begin = clock();
-    lecture(texte, &ht, verifHash);
-    time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+    lecture(texte, &ht, verifHash, N);
 
-    //Debug : affichage
-    //hash_afficher_table(&ht);
+    time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Liberation mémoire
     fclose(dictionnaire);
@@ -136,6 +104,61 @@ int main(int argc, char *argv[])
     hash_destroy(&ht);
 
     printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
-    printf("\nFIN DU PROGRAMME\n");
+    printf("--- FIN TEST HASH\n");
+    
+
+    //************* METHODE 3 : ARBRES PREFIX
+    printf("--- DEBUT TEST PREFIX\n");
+    dictionnaire = fopen(argv[1], "r");
+    texte = fopen(argv[2], "r");
+    begin = clock();
+
+    arbre a = NULL;
+
+    //Lecture du dictionnaire
+    lecture_dico(dictionnaire, &a, lectureArbre);
+
+    time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+    printf("Temps dico (ms): %ld\n", time_ms_dico);
+
+    //Vérification du texte
+    begin = clock();
+    lecture(texte, a, verifArbre, N);
+    time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+
+
+    //Liberation mémoire
+    fclose(texte);
+    fclose(dictionnaire);
+
+    printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
+    printf("--- FIN TEST PREFIX\n");
+
+    //************* METHODE 4 : ARBRE RADIX OPTIMISE
+
+    printf("--- DEBUT TEST RADIX\n");
+    texte = fopen(argv[2], "r");
+    begin = clock();
+
+    //parcours_prefixe(a);
+    transform_prefix_into_radix(&a);
+    //parcours_prefixe(a);
+
+    time_ms_dico += (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+    printf("Temps dico (ms): %ld\n", time_ms_dico);
+
+    //Vérification du texte
+    begin = clock();
+    lecture(texte, a, verifArbre, N);
+    time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
+
+    //Liberation mémoire
+    
+    fclose(texte);
+    detruire_arbre(a);
+
+    printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
+    printf("--- FIN TEST RADIX\n");
+    
     return EXIT_SUCCESS;
 }
