@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 #include "lecture.h"
 #include "hash.h"
 #include "linked_list.h"
@@ -9,12 +10,6 @@
 //PARAMETERS
 //Nombre de mots a lire : -1 pour tout lire
 #define N 50
-
-void test(char* mot, void* unused)
-{
-    printf("%s\n", mot);
-    //getchar();
-}
 
 int main(int argc, char *argv[])
 {
@@ -108,7 +103,7 @@ int main(int argc, char *argv[])
     //Liberation mémoire
     fclose(dictionnaire);
     fclose(texte);
-    hash_destroy(&ht);
+    hash_destroy(&ht, element_delete);
 
     printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
     printf("--- FIN TEST HASH\n");
@@ -129,7 +124,7 @@ int main(int argc, char *argv[])
 
     //Vérification du texte
     begin = clock();
-    nb_error = lecture(texte, a, verifArbre, N , &total);
+    //nb_error = lecture(texte, a, verifArbre, N , &total);
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
     printf("size : %ld\n", sizeof(a));
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
@@ -151,9 +146,10 @@ int main(int argc, char *argv[])
     transform_prefix_into_radix(&a);
     
     //Compression des suffixes
-    liste f = liste_create(), duplic = liste_create();
-    a = partage_prefix(a, &f, &duplic);
-    liste_destroy(f, chuuuuuu);
+    table_hachage reloc_tmp = hash_new(1); 
+    bool useless;
+    //a = partage_suffix(a, &reloc_tmp, &useless);
+    hash_destroy(&reloc_tmp, chuuuuuu);
 
     time_ms_dico += (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -167,8 +163,10 @@ int main(int argc, char *argv[])
     //Liberation mémoire
     
     fclose(texte);
-    detruire_arbre_radix(a, duplic);
-    liste_destroy(duplic, radix_list_delete);
+
+    table_hachage duplic = hash_new(1);
+    detruire_arbre_radix(a, &duplic);
+    hash_destroy(&duplic, radix_delete);
 
     printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
     printf("--- FIN TEST RADIX\n");

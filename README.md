@@ -20,4 +20,8 @@ https://docs.google.com/document/d/1uqOXZA4931Fzae__El1_qWlyU3KgkM-wfBzQk86oAps/
 ¤ Dictionnaire et Text normalement présents dans le dossier data
 
 ¤ Lancement des tests optionels :
-¤ ./bin/test_NOM_DU_TEST
+¤ ./bin/test_elem
+¤ ./bin/test_list
+¤ ./bin/test_hash
+¤ ./bin/test_bin
+¤ ./bin/test_arbres

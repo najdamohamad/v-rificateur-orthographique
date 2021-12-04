@@ -9,8 +9,10 @@ int main(void)
     elem e1 = element_new("coucou");
     elem e2 = element_new("salut");
     elem e3 = element_new("couture");
-    elem e4 = element_new("s");
+    elem e4 = element_new("boomer");
     elem e5 = element_new("boomttes");
+    elem e8 = element_new("boomttess");
+    elem e9 = element_new("couturettess");
     elem e6 = element_new("boom");
     elem e7 = element_new("couturettes");
 
@@ -22,6 +24,8 @@ int main(void)
     ajout_prefix(&a, e3);
     ajout_prefix(&a, e5);
     ajout_prefix(&a, e6);
+    ajout_prefix(&a, e8);
+    ajout_prefix(&a, e9);
 
     parcours_prefixe(a); printf("\n");
 
@@ -37,11 +41,11 @@ int main(void)
     transform_prefix_into_radix(&a);
     parcours_prefixe(a); printf("\n");
 
-    liste f = liste_create();
-    liste duplic = liste_create();
-    
-    a = partage_prefix(a, &f, &duplic);
-    liste_destroy(f, chuuuuuu);
+    table_hachage ht = hash_new(1);
+    bool useless;
+    a = partage_suffix(a, &ht, &useless);
+    //On peut libérer la mémoire de la table sans supprimer les éléments
+    hash_destroy(&ht, chuuuuuu);
 
     parcours_prefixe(a); printf("\n");
 
@@ -61,11 +65,14 @@ int main(void)
     element_delete(e5);
     element_delete(e6);
     element_delete(e7);
+    element_delete(e8);
+    element_delete(e9);
 
     
-    
-    detruire_arbre_radix(a, duplic);
-    liste_destroy(duplic, radix_list_delete);
+    //Liste pour la libération mémoire
+    table_hachage duplic = hash_new(1);
+    detruire_arbre_radix(a, &duplic);
+    hash_destroy(&duplic, radix_delete);
 
     return EXIT_SUCCESS;
 }

@@ -1,7 +1,7 @@
 # Compilateur
 CC=gcc
 # Options de compilation
-CFLAGS=-std=c99 -Wall -Wextra -lm -g -pg
+CFLAGS=-std=c99 -Wall -Wextra -lm -g -Wno-unused-parameter
 
 # DÃ©finition des rÃ©pertoires de travail
 SRC_DIR=src

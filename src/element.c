@@ -36,7 +36,7 @@ char element_get(elem e, int i)
 void element_delete(void* e)
 {
     free(((elem)e)->mot);
-    free(e);
+    free(((elem)e));
 }
 
 int element_length(elem e)
@@ -44,9 +44,9 @@ int element_length(elem e)
     return strlen(e->mot);
 }
 
-elem element_copy(elem e)
+void* element_copy(void* e)
 {
-    elem new = element_new(e->mot);
+    elem new = element_new(((elem)e)->mot);
     return new;
 }
 

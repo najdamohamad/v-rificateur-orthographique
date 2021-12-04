@@ -17,7 +17,7 @@ table_hachage hash_new(unsigned capacite)
     return ht;
 }
 
-int hash(elem element, unsigned capacite)
+int hash_str(void* element, unsigned capacite)
 {
     int h = 0;
     int a = 33;
@@ -31,33 +31,27 @@ int hash(elem element, unsigned capacite)
     return h % capacite;
 }
 
-bool hash_identiques(elem element_1, elem element_2)
+void* hash_est_present(void* element, table_hachage* ht, int (hash_func)(void*, unsigned int),int (cmp_func) (void*, void*))
 {
-    return element_compare(element_1, element_2);
-}
-
-bool hash_est_present(elem element, table_hachage* ht)
-{
-    int h = hash(element, ht->capacite);
+    int h = hash_func(element, ht->capacite);
     
     liste l = ht->table[h];
     
-    return liste_element_exist(element, l, element_compare);
+    return liste_element_exist(element, l, cmp_func);
 }
 
-void hash_inserer_sans_redimensionner(elem element, table_hachage* ht)
+void hash_inserer_sans_redimensionner(void* element, table_hachage* ht, int (hash_func)(void*, unsigned int),int (cmp_func) (void*, void*))
 {
-    if(!hash_est_present(element, ht))
-    {
-        int h = hash(element, ht->capacite);
-        ht->nb_elements++;
-        liste_add_first(element, &ht->table[h]);
-    }
+
+    int h = hash_func(element, ht->capacite);
+    ht->nb_elements++;
+    liste_add_first(element, &ht->table[h]);
+        
 }
 
-void hash_inserer_redimensionner(elem element, table_hachage* ht)
+void hash_inserer_redimensionner(void* element, table_hachage* ht, int (hash_func)(void*, unsigned int),int (cmp_func) (void*, void*))
 {
-    if(ht->nb_elements > 2*ht->capacite/3)
+    if(ht->nb_elements > ht->capacite)
     {
         table_hachage new_ht = hash_new(ht->capacite*2);
         
@@ -69,16 +63,17 @@ void hash_inserer_redimensionner(elem element, table_hachage* ht)
             l = ht->table[i];
             while (l != NULL)
             {
-                hash_inserer_sans_redimensionner(element_copy(l->e), &new_ht);
+                hash_inserer_sans_redimensionner(l->e, &new_ht, hash_func, cmp_func);
                 l = l->next;
             }
+            liste_destroy(ht->table[i], empty);
         }
-
-        hash_destroy(ht);
+    
+        free(ht->table);
         *ht = new_ht;
     }
     
-    hash_inserer_sans_redimensionner(element, ht);
+    hash_inserer_sans_redimensionner(element, ht, hash_func, cmp_func);
 }
 
 void hash_afficher_table(table_hachage* ht)
@@ -93,12 +88,12 @@ void hash_afficher_table(table_hachage* ht)
     printf("}\n");
 }
 
-void hash_destroy(table_hachage* ht)
+void hash_destroy(table_hachage* ht, void (delete_func)(void*))
 {
     unsigned int i;
     for(i=0;i<ht->capacite;i++)
     {
-        liste_destroy(ht->table[i], element_delete);
+        liste_destroy(ht->table[i], delete_func);
     }
     free(ht->table);
 }
@@ -107,7 +102,7 @@ bool verifHash(char* mot, void* struct_donne)
 {
     elem e = element_new(mot);
 
-    if(!hash_est_present(e, struct_donne))
+    if(!hash_est_present(e, struct_donne, hash_str, element_compare))
     {
         //printf("%s incorrect\n", mot);
         element_delete(e);
@@ -120,5 +115,10 @@ bool verifHash(char* mot, void* struct_donne)
 void lectureHash(char* mot, void* struct_donne)
 {
     elem e = element_new(mot);
-    hash_inserer_redimensionner(e, struct_donne);
+    hash_inserer_redimensionner(e, struct_donne, hash_str, element_compare);
+}
+
+void empty(void* e)
+{
+    return;
 }

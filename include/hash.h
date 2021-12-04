@@ -21,13 +21,15 @@ typedef struct {
 //FONCTIONS GENERIQUES
 //IMPLEMENTATION
 table_hachage hash_new(unsigned capacite);
-int hash(elem element, unsigned capacite);
-bool hash_identiques(elem element_1, elem element_2);
-bool hash_est_present(elem element, table_hachage* ht);
-void hash_inserer_sans_redimensionner(elem element, table_hachage* ht);
+int hash_str(void* element, unsigned capacite);
+
+void* hash_est_present(void* element, table_hachage* ht, int (hash_func)(void*, unsigned int),int (cmp_func) (void*, void*));
+void hash_inserer_sans_redimensionner(void* element, table_hachage* ht, int (hash_func)(void*, unsigned int),int (cmp_func) (void*, void*));
 void hash_afficher_table(table_hachage* ht);
-void hash_destroy(table_hachage* ht);
-void hash_inserer_redimensionner(elem element, table_hachage* ht);
+void hash_destroy(table_hachage* ht, void (delete_func)(void*));
+void hash_inserer_redimensionner(void* element, table_hachage* ht, int (hash_func)(void*, unsigned int),int (cmp_func) (void*, void*));
+
+void empty(void* e);
 
 void lectureHash(char* mot, void* struct_donne);
 bool verifHash(char* mot, void* struct_donne);

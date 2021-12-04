@@ -7,16 +7,17 @@
 #include <assert.h>
 
 #include "arbre_prefix.h"
-#include "linked_list.h"
+#include "hash.h"
 
 void transform_prefix_into_radix(arbre* a);
-arbre partage_prefix(arbre a, liste* alr_meet, liste* duplic);
-void detruire_arbre_radix(arbre a, liste l);
+arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc);
 
-void radix_list_delete(void* e);
-elem prefix_conc(arbre a);
+void detruire_arbre_radix(arbre a, table_hachage* duplic);
+void radix_delete(void* e);
 
-int prefix_compare(void* e1, void* e2);
+elem suffix_conc(arbre a);
+int suffix_compare(void* e1, void* e2);
 void chuuuuuu(void*);
+int hash_suffix(void* e, unsigned c);
 
 #endif

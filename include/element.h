@@ -18,7 +18,7 @@ void element_print(elem e);
 char element_get(elem e, int i);
 void element_delete(void* e);
 int element_length(elem e);
-elem element_copy(elem e);
+void* element_copy(void* e);
 elem element_copy_n(elem e, int n);
 
 #endif

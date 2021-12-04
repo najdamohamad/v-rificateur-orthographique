@@ -15,7 +15,7 @@ typedef struct noeud
     struct noeud* frere;
     struct noeud* fils;
     bool final;
-    elem prefix;
+    bool reloc;
 }noeud;
 
 typedef noeud* arbre;

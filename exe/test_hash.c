@@ -13,13 +13,13 @@ int main(void)
     for(i=0;i<nb;i++)
     {
         sprintf(str, "%d", i);
-        hash_inserer_redimensionner(element_new(str), &ht);
+        hash_inserer_redimensionner(element_new(str), &ht, hash_str, element_compare);
     }
 
 
     hash_afficher_table(&ht);
 
-    hash_destroy(&ht);
+    hash_destroy(&ht, element_delete);
 
     clock_t end = clock();
     unsigned long millis = (end -  begin) * 1000 / CLOCKS_PER_SEC;

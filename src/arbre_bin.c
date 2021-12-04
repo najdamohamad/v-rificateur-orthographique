@@ -9,6 +9,7 @@ noeud* creer_noeud(elem valeur)
     n->fils = NULL;
     n->final = false;
     n->val = valeur;
+    n->reloc = false;
 
     return n;
 }

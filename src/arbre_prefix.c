@@ -5,6 +5,13 @@ bool recherche_arbre_prefix(arbre a, elem e){
     arbre c = a;
     int nb_fils = 0, e_l;
 
+    if(strcmp("etait", e->mot) == 0)
+    {
+        printf("break\n");
+    }
+        
+
+
     while (!arbre_est_vide(c))
     {   
         e_l = element_length(c->val);
@@ -33,8 +40,8 @@ bool recherche_arbre_prefix(arbre a, elem e){
 
 void ajout_prefix(arbre* a, elem e)
 {
-    arbre* p = a,* c = a;
-    bool est_frere = false;
+    arbre* p = a,* c = a, i, *tmp;
+    bool est_frere = false, insere = false;
     int nb_fils = 0;
 
     while (!arbre_est_vide(*c))
@@ -54,6 +61,14 @@ void ajout_prefix(arbre* a, elem e)
         }
         else
         {
+            //Insertion pour trier l'arbre
+            if(element_get(e, nb_fils) < element_get((*c)->val, 0))
+            {
+                i = *c;
+                insere = true;
+                break;
+            }
+
             est_frere = true;
             p = c;
             c = &(*c)->frere;
@@ -67,9 +82,10 @@ void ajout_prefix(arbre* a, elem e)
     *pChar = element_get(e, nb_fils);
     elem new = element_new(pChar);
 
-    if(*a == NULL)
+    if(*a == NULL || c == a)
     {
-        *a = creer_noeud(new);
+        *c = creer_noeud(new);
+        tmp = c;
     }
     else
     {
@@ -83,6 +99,7 @@ void ajout_prefix(arbre* a, elem e)
             (*p)->fils = creer_noeud(new);
             p = &(*p)->fils;
         }
+        tmp = p;
     }
 
     //le reste est forcement fils
@@ -96,6 +113,12 @@ void ajout_prefix(arbre* a, elem e)
     }
 
     (*c)->final = true;
+
+    if(insere)
+    {
+        (*tmp)->frere = i;
+    }
+
     free(pChar);
             
 }

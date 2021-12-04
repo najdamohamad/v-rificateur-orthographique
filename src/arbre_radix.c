@@ -36,103 +36,142 @@ void chuuuuuu(void* e)
 }
 
 
-arbre partage_prefix(arbre a, liste* alr_meet, liste* duplic)
+arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc)
 {
+    bool reloc_frer, reloc_fils;
+    arbre noeud = NULL;
+
     if(a == NULL)
+    {
+        *reloc = true;
         return NULL;
+    }
     
-    a->frere = partage_prefix(a->frere, alr_meet, duplic);
-    a->fils = partage_prefix(a->fils, alr_meet, duplic);
-    
-    a->prefix = prefix_conc(a);
-    
-    if(a->final == false)
-        return a;
+    a->frere = partage_suffix(a->frere, alr_meet, &reloc_frer);
+    a->fils = partage_suffix(a->fils, alr_meet, &reloc_fils);
 
-    arbre noeud = liste_element_exist(a, *alr_meet, prefix_compare);
-    printf("mot : %s, prefix : %s\n", a->val->mot, a->prefix->mot);
+    //Si c'est le sommet de l'arbre
+    // if(a->final == false)
+    //     return a;
 
+    //Si le frère et le fils sont relocalisé, il y a des chances que le père aussi
+    if(reloc_fils && reloc_frer)
+    {
+        noeud = hash_est_present(a, alr_meet, hash_suffix, suffix_compare);
+    }
+        
+    //Si le préfixe n'existe pas dans les anciens rencontrés
     if(noeud == NULL)
     {
-        liste_add_first(a, alr_meet);
+        hash_inserer_redimensionner(a, alr_meet, hash_suffix, suffix_compare);
+        //Indicateur pour les pères
+        *reloc = false;
         return a;
     }
     else
     {
-        if(liste_element_exist(noeud, *duplic, prefix_compare) == NULL)
-            liste_add_first(noeud, duplic);
-        
-        printf("%p\n", noeud);
+        //Indicateur pour les pères
+        *reloc = true;
+        //On marque le noeud pour la libération
+        noeud->reloc = true;
 
-        arbre* a_tmp = &noeud;
-        while ((*a_tmp)->frere !=NULL)
-        {
-            a_tmp = &(*a_tmp)->frere;
-        }
-        (*a_tmp)->frere = a->frere;
-
+        //Suppression du neud inutile
         element_delete(a->val);
-        element_delete(a->prefix);
         free(a);
         
+        //Noeud compressé
         return noeud;
     }
-        
 }
 
-elem prefix_conc(arbre a)
+//Fabrication du suffixe
+elem suffix_conc(arbre a)
 {
-    char concaten[30000];
+    arbre i = a, j = a;
+    char concaten[500];
     concaten[0] = 0;
-    arbre tmp;
 
-    if(a != NULL)
+    
+    while (i != NULL)
     {
-        //Pour éviter de faire les frères de a
-        strcat(concaten, a->val->mot);
-        a = a->fils;
-    }
-    while (a != NULL)
-    {
-        tmp = a;
-        while (tmp != NULL)
+        j = i;
+        while (j != NULL)
         {
-            strcat(concaten, tmp->val->mot);
-            tmp = tmp->frere;
+            strcat(concaten, j->val->mot);
+            if(j->final == false)
+                strcat(concaten, "0");
+            j = j->frere;
         }
-        a = a->fils;
+        i = i->fils;
     }
     
     elem new = element_new(concaten);
     return new;
 }
 
-void radix_list_delete(void* e)
+void radix_delete(void* e)
 {
     element_delete(((arbre)e)->val);
-    element_delete(((arbre)e)->prefix);
     free((arbre)e);
 }
 
-void detruire_arbre_radix(arbre a, liste l)
+void detruire_arbre_radix(arbre a, table_hachage* duplic)
 {
     if(arbre_est_vide(a))
         return;
 
-    arbre noeud = liste_element_exist(a, l, noeud_cmp);
-
-    if(noeud == NULL)
+    //On ne supprime pas tout de suite les doublons : on les places dans une liste
+    //pour supprimer les doubles et les erreurs de double free
+    if(a->reloc == true)
     {
-        detruire_arbre_radix(a->frere, l);
-        detruire_arbre_radix(a->fils, l);
-
+        if(hash_est_present(a, duplic, hash_suffix, suffix_compare) == NULL)
+            hash_inserer_redimensionner(a, duplic, hash_suffix, suffix_compare);
+            // detruire_arbre_radix(a->frere, duplic);
+            // detruire_arbre_radix(a->fils, duplic);
+    }
+    else
+    {
+        detruire_arbre_radix(a->frere, duplic);
+        detruire_arbre_radix(a->fils, duplic);
         element_delete(a->val);
-        element_delete(a->prefix);
         free(a);
     }
 }
 
-int prefix_compare(void* e1, void* e2)
+int suffix_compare(void* e1, void* e2)
 {
-    return element_compare(((arbre)e1)->prefix, ((arbre)e2)->prefix);
+    elem suf1 = suffix_conc((arbre)e1);
+    elem suf2 = suffix_conc((arbre)e2);
+
+    int e1_len = strlen(suf1->mot);
+    int e2_len = strlen(suf2->mot);
+
+    if(e1_len != e2_len)
+    {
+        element_delete(suf1);
+        element_delete(suf2);
+        return -1;
+    }
+    
+    for (int i = 0; i < e1_len; i++)
+    {
+        if(suf1->mot[i] != suf2->mot[i])
+        {
+            element_delete(suf1);
+            element_delete(suf2);
+            return -1;
+        }
+            
+    }
+    element_delete(suf1);
+    element_delete(suf2);
+    return 0;
+}
+
+int hash_suffix(void* e, unsigned c)
+{
+    elem str = suffix_conc((arbre)e);
+    int hash = hash_str(str, c);
+    element_delete(str);
+    return hash;
 }
