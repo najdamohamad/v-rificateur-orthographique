@@ -75,6 +75,14 @@ arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc)
         //On marque le noeud pour la libération
         noeud->reloc = true;
 
+        // arbre i = noeud;
+        // while (i->frere != NULL)
+        // {
+        //     i = i->frere;
+        // }
+        // i->frere = a->frere;
+        
+
         //Suppression du neud inutile
         element_delete(a->val);
         free(a);
@@ -120,6 +128,8 @@ void detruire_arbre_radix(arbre a, table_hachage* duplic)
     if(arbre_est_vide(a))
         return;
 
+    detruire_arbre_radix(a->frere, duplic);
+    detruire_arbre_radix(a->fils, duplic);
     //On ne supprime pas tout de suite les doublons : on les places dans une liste
     //pour supprimer les doubles et les erreurs de double free
     if(a->reloc == true)
@@ -131,8 +141,6 @@ void detruire_arbre_radix(arbre a, table_hachage* duplic)
     }
     else
     {
-        detruire_arbre_radix(a->frere, duplic);
-        detruire_arbre_radix(a->fils, duplic);
         element_delete(a->val);
         free(a);
     }
@@ -140,38 +148,18 @@ void detruire_arbre_radix(arbre a, table_hachage* duplic)
 
 int suffix_compare(void* e1, void* e2)
 {
-    elem suf1 = suffix_conc((arbre)e1);
-    elem suf2 = suffix_conc((arbre)e2);
-
-    int e1_len = strlen(suf1->mot);
-    int e2_len = strlen(suf2->mot);
-
-    if(e1_len != e2_len)
+    if(strcmp(((arbre)e1)->val->mot, ((arbre)e2)->val->mot) == 0)
     {
-        element_delete(suf1);
-        element_delete(suf2);
-        return -1;
+        if(((arbre)e1)->fils == ((arbre)e2)->fils && ((arbre)e1)->frere == ((arbre)e2)->frere)
+            return 0;
     }
-    
-    for (int i = 0; i < e1_len; i++)
-    {
-        if(suf1->mot[i] != suf2->mot[i])
-        {
-            element_delete(suf1);
-            element_delete(suf2);
-            return -1;
-        }
-            
-    }
-    element_delete(suf1);
-    element_delete(suf2);
-    return 0;
+    return -1;
 }
 
 int hash_suffix(void* e, unsigned c)
 {
-    elem str = suffix_conc((arbre)e);
-    int hash = hash_str(str, c);
-    element_delete(str);
+    //elem str = suffix_conc((arbre)e);
+    int hash = hash_str(((arbre)e)->val, c);
+    //element_delete(str);
     return hash;
 }

@@ -9,7 +9,7 @@
 
 //PARAMETERS
 //Nombre de mots a lire : -1 pour tout lire
-#define N 50
+#define N -1
 
 int main(int argc, char *argv[])
 {

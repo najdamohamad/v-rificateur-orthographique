@@ -5,13 +5,6 @@ bool recherche_arbre_prefix(arbre a, elem e){
     arbre c = a;
     int nb_fils = 0, e_l;
 
-    if(strcmp("etait", e->mot) == 0)
-    {
-        printf("break\n");
-    }
-        
-
-
     while (!arbre_est_vide(c))
     {   
         e_l = element_length(c->val);
