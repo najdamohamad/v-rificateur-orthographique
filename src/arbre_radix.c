@@ -50,10 +50,6 @@ arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc)
     a->frere = partage_suffix(a->frere, alr_meet, &reloc_frer);
     a->fils = partage_suffix(a->fils, alr_meet, &reloc_fils);
 
-    //Si c'est le sommet de l'arbre
-    // if(a->final == false)
-    //     return a;
-
     //Si le frère et le fils sont relocalisé, il y a des chances que le père aussi
     if(reloc_fils && reloc_frer)
     {
@@ -136,8 +132,6 @@ void detruire_arbre_radix(arbre a, table_hachage* duplic)
     {
         if(hash_est_present(a, duplic, hash_suffix, suffix_compare) == NULL)
             hash_inserer_redimensionner(a, duplic, hash_suffix, suffix_compare);
-            // detruire_arbre_radix(a->frere, duplic);
-            // detruire_arbre_radix(a->fils, duplic);
     }
     else
     {
@@ -148,7 +142,7 @@ void detruire_arbre_radix(arbre a, table_hachage* duplic)
 
 int suffix_compare(void* e1, void* e2)
 {
-    if(strcmp(((arbre)e1)->val->mot, ((arbre)e2)->val->mot) == 0)
+    if(strcmp(((arbre)e1)->val->mot, ((arbre)e2)->val->mot) == 0 && ((arbre)e1)->final == ((arbre)e2)->final)
     {
         if(((arbre)e1)->fils == ((arbre)e2)->fils && ((arbre)e1)->frere == ((arbre)e2)->frere)
             return 0;

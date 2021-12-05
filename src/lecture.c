@@ -2,15 +2,17 @@
 
 //FONCTIONS GENERIQUES
 //Fonction optimisé en temps pour la lecture du dictionnaire (1 mot par ligne)
-void lecture_dico(FILE* dico, void* struct_donne, void (func)(char*, void*))
+void lecture_dico(FILE* dico, void* struct_donne, void (func)(char*, void*), int nb_max)
 {
     char mot[MAX_CARAC_WORD];
+    int count = 0;
 
-    while (fgets(mot, MAX_CARAC_WORD, dico) != NULL)
+    while (fgets(mot, MAX_CARAC_WORD, dico) != NULL && (count < nb_max || nb_max == -1))
     {
         //On supprime de \n de la fin de ligne
         mot[strlen(mot)-1] = '\0';
         func(mot, struct_donne);
+        count++;
     }
 }
 

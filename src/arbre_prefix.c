@@ -5,11 +5,12 @@ bool recherche_arbre_prefix(arbre a, elem e){
     arbre c = a;
     int nb_fils = 0, e_l;
 
+    // if(strcmp(e->mot, "bruire") == 0)
+    //     getchar();
+
     while (!arbre_est_vide(c))
     {   
         e_l = element_length(c->val);
-
-        //printf("cmp %s et %s taille %d, %d\n", c->val->mot, e->mot + nb_fils, e_l, c->val->mot[strlen(c->val->mot)-1]);
 
         if(strncmp(c->val->mot, e->mot + nb_fils, e_l) == 0)
         {

@@ -9,7 +9,8 @@
 
 //PARAMETERS
 //Nombre de mots a lire : -1 pour tout lire
-#define N -1
+#define Nb_Dico -1
+#define Nb_Lecture -1
 
 int main(int argc, char *argv[])
 {
@@ -54,19 +55,18 @@ int main(int argc, char *argv[])
     printf("--- DEBUT TEST LISTE\n");
     begin = clock();
     liste l = liste_create() ;
-    lecture_dico(dictionnaire, &l, lectureListe);
+    lecture_dico(dictionnaire, &l, lectureListe, Nb_Dico);
     
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Vérification du texte
     begin = clock();
-    if(N > 1000 || N == -1 )//On limite car trop de temps
+    if(Nb_Lecture >= 1000 || Nb_Lecture == -1 )//On limite car trop de temps
         nb_error = lecture(texte, l, verifListe, 1000, &total);
     else
-        nb_error = lecture(texte, l, verifListe, N , &total);
+        nb_error = lecture(texte, l, verifListe, Nb_Lecture , &total);
         
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
-    printf("size : %ld\n", sizeof(l));
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -88,15 +88,14 @@ int main(int argc, char *argv[])
     table_hachage ht = hash_new(1);
 
     //Lecture du dictionnaire
-    lecture_dico(dictionnaire, &ht, lectureHash);
+    lecture_dico(dictionnaire, &ht, lectureHash, Nb_Dico);
 
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Vérification du texte
     begin = clock();
-    nb_error = lecture(texte, &ht, verifHash, N , &total);
+    nb_error = lecture(texte, &ht, verifHash, Nb_Lecture , &total);
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
-    printf("size : %ld\n", sizeof(ht));
 
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
@@ -118,15 +117,14 @@ int main(int argc, char *argv[])
     arbre a = NULL;
 
     //Lecture du dictionnaire
-    lecture_dico(dictionnaire, &a, lectureArbre);
+    lecture_dico(dictionnaire, &a, lectureArbre, Nb_Dico);
 
     time_ms_dico = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Vérification du texte
     begin = clock();
-    //nb_error = lecture(texte, a, verifArbre, N , &total);
+    nb_error = lecture(texte, a, verifArbre, Nb_Lecture , &total);
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
-    printf("size : %ld\n", sizeof(a));
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
 
@@ -148,16 +146,15 @@ int main(int argc, char *argv[])
     //Compression des suffixes
     table_hachage reloc_tmp = hash_new(1); 
     bool useless;
-    //a = partage_suffix(a, &reloc_tmp, &useless);
+    a = partage_suffix(a, &reloc_tmp, &useless);
     hash_destroy(&reloc_tmp, chuuuuuu);
 
     time_ms_dico += (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Vérification du texte
     begin = clock();
-    nb_error = lecture(texte, a, verifArbre, N , &total);
+    nb_error = lecture(texte, a, verifArbre, Nb_Lecture , &total);
     printf("nombre d'erreurs : %d sur %d  \n", nb_error , total);
-    printf("size : %ld\n", sizeof(a));
     time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
 
     //Liberation mémoire

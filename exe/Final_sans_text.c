@@ -8,14 +8,9 @@
 
 //PARAMETERS
 //Nombre de mots a lire : -1 pour tout lire
-#define N -1
+#define Nb_Dico -1
+#define Nb_Lecture -1
 
-// void test(char* mot, void* unused)
-// {
-//     unused = unused;
-//     printf("%s\n", mot);
-//     //getchar();
-// }
 
 int main(int argc, char *argv[])
 {
@@ -51,49 +46,43 @@ int main(int argc, char *argv[])
     //********************************************TESTS********************************************
 
     //************* METHODE 3 : ARBRES PREFIX
-    dictionnaire = fopen(argv[1], "r");
-    texte = fopen(argv[2], "r");
 
     arbre a = NULL;
 
     //Lecture du dictionnaire
-    lecture_dico(dictionnaire, &a, lectureArbre);
+    lecture_dico(dictionnaire, &a, lectureArbre, Nb_Dico);
 
 
     //Vérification du texte
     int nb;
-    lecture(texte, a, verifArbre, N, &nb);
+    //lecture(texte, a, verifArbre, Nb_Lecture, &nb);
 
 
     //Liberation mémoire
     fclose(texte);
     fclose(dictionnaire);
 
-    // //************* METHODE 4 : ARBRE RADIX OPTIMISE
+    //************* METHODE 4 : ARBRE RADIX OPTIMISE
 
-    // printf("--- DEBUT TEST RADIX\n");
-    // texte = fopen(argv[2], "r");
-    // begin = clock();
+    texte = fopen(argv[2], "r");
 
-    // //parcours_prefixe(a);
-    // transform_prefix_into_radix(&a);
-    // //parcours_prefixe(a);
-
-    // time_ms_dico += (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
-
-    // //Vérification du texte
-    // begin = clock();
-    // nb_error = lecture(texte, a, verifArbre, N);
-    // printf("nombre d'erreurs : %d\n", nb_error);
-    // time_ms_verif = (clock() -  begin) * 1000 / CLOCKS_PER_SEC;
-
-    // //Liberation mémoire
+    transform_prefix_into_radix(&a);
     
-    // fclose(texte);
-    // detruire_arbre(a);
+    table_hachage reloc_tmp = hash_new(1); 
+    bool useless;
+    a = partage_suffix(a, &reloc_tmp, &useless);
+    hash_destroy(&reloc_tmp, chuuuuuu);
 
-    // printf("Temps dico (ms): %ld\nTemps verif (ms): %ld\n", time_ms_dico, time_ms_verif);
-    // printf("--- FIN TEST RADIX\n");
+
+    //Vérification du texte
+    lecture(texte, a, verifArbre, Nb_Lecture, &nb);
+
+    //Liberation mémoire
+    
+    fclose(texte);
+    table_hachage duplic = hash_new(1);
+    detruire_arbre_radix(a, &duplic);
+    hash_destroy(&duplic, radix_delete);
     
     return EXIT_SUCCESS;
 }
