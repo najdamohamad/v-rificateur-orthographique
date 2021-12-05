@@ -15,7 +15,6 @@ arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc);
 void detruire_arbre_radix(arbre a, table_hachage* duplic);
 void radix_delete(void* e);
 
-elem suffix_conc(arbre a);
 int suffix_compare(void* e1, void* e2);
 void chuuuuuu(void*);
 int hash_suffix(void* e, unsigned c);

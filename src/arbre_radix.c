@@ -7,7 +7,6 @@ void transform_prefix_into_radix(arbre* a)
         return;
 
     transform_prefix_into_radix(&(*a)->fils);
-
     transform_prefix_into_radix(&(*a)->frere);
 
     if((*a)->final == false && (*a)->fils != NULL && (*a)->fils->frere == NULL)
@@ -34,7 +33,6 @@ void chuuuuuu(void* e)
 {
     return;
 }
-
 
 arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc)
 {
@@ -77,7 +75,6 @@ arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc)
         //     i = i->frere;
         // }
         // i->frere = a->frere;
-        
 
         //Suppression du neud inutile
         element_delete(a->val);
@@ -86,31 +83,6 @@ arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc)
         //Noeud compressé
         return noeud;
     }
-}
-
-//Fabrication du suffixe
-elem suffix_conc(arbre a)
-{
-    arbre i = a, j = a;
-    char concaten[500];
-    concaten[0] = 0;
-
-    
-    while (i != NULL)
-    {
-        j = i;
-        while (j != NULL)
-        {
-            strcat(concaten, j->val->mot);
-            if(j->final == false)
-                strcat(concaten, "0");
-            j = j->frere;
-        }
-        i = i->fils;
-    }
-    
-    elem new = element_new(concaten);
-    return new;
 }
 
 void radix_delete(void* e)
@@ -152,8 +124,6 @@ int suffix_compare(void* e1, void* e2)
 
 int hash_suffix(void* e, unsigned c)
 {
-    //elem str = suffix_conc((arbre)e);
     int hash = hash_str(((arbre)e)->val, c);
-    //element_delete(str);
     return hash;
 }
