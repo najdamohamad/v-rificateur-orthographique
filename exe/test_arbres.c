@@ -7,36 +7,41 @@ int main(void)
     arbre a = NULL;
     
     elem e1 = element_new("coucou");
-    elem e2 = element_new("salut");
+    elem e2 = element_new("boomier");
     elem e3 = element_new("couture");
     elem e4 = element_new("boomer");
-    elem e5 = element_new("boomttes");
-    elem e8 = element_new("boomttess");
-    elem e9 = element_new("couturettess");
+    elem e5 = element_new("boomettes");
     elem e6 = element_new("boom");
-    elem e7 = element_new("couturettes");
+    elem e7 = element_new("couturier");
+    elem e8 = element_new("boome");
+    elem e9 = element_new("couturettes");
+    elem e10 = element_new("courgette");
 
     
     //ajout_prefix(&a, e2);
-    ajout_prefix(&a, e7);
-    ajout_prefix(&a, e4);
     ajout_prefix(&a, e1);
+    ajout_prefix(&a, e2);
     ajout_prefix(&a, e3);
+    ajout_prefix(&a, e4);
     ajout_prefix(&a, e5);
     ajout_prefix(&a, e6);
+    ajout_prefix(&a, e7);
     ajout_prefix(&a, e8);
     ajout_prefix(&a, e9);
 
     parcours_prefixe(a); printf("\n");
 
-    printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boomttes %d, boom %d, couturette %d\n",   
-                                        recherche_arbre_prefix(a , e1), 
-                                        recherche_arbre_prefix(a , e2),
-                                        recherche_arbre_prefix(a , e3),
-                                        recherche_arbre_prefix(a , e4),
-                                        recherche_arbre_prefix(a , e5),
-                                        recherche_arbre_prefix(a , e6),
-                                        recherche_arbre_prefix(a , e7));
+    printf("%s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d\n",   
+                                        e1->mot, recherche_arbre_prefix(a , e1), 
+                                        e2->mot, recherche_arbre_prefix(a , e2),
+                                        e3->mot, recherche_arbre_prefix(a , e3),
+                                        e4->mot, recherche_arbre_prefix(a , e4),
+                                        e5->mot, recherche_arbre_prefix(a , e5),
+                                        e6->mot, recherche_arbre_prefix(a , e6),
+                                        e7->mot, recherche_arbre_prefix(a , e7),
+                                        e8->mot, recherche_arbre_prefix(a , e8),
+                                        e9->mot, recherche_arbre_prefix(a , e9),
+                                        e10->mot, recherche_arbre_prefix(a , e10));
 
     transform_prefix_into_radix(&a);
     parcours_prefixe(a); printf("\n");
@@ -49,14 +54,17 @@ int main(void)
 
     parcours_prefixe(a); printf("\n");
 
-    printf("\ncoucou : %d, salut : %d, couture : %d, s %d,boomttes %d, boom %d, couturette %d\n",   
-                                        recherche_arbre_prefix(a , e1), 
-                                        recherche_arbre_prefix(a , e2),
-                                        recherche_arbre_prefix(a , e3),
-                                        recherche_arbre_prefix(a , e4),
-                                        recherche_arbre_prefix(a , e5),
-                                        recherche_arbre_prefix(a , e6),
-                                        recherche_arbre_prefix(a , e7));
+    printf("%s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d, %s : %d\n",   
+                                        e1->mot, recherche_arbre_prefix(a , e1), 
+                                        e2->mot, recherche_arbre_prefix(a , e2),
+                                        e3->mot, recherche_arbre_prefix(a , e3),
+                                        e4->mot, recherche_arbre_prefix(a , e4),
+                                        e5->mot, recherche_arbre_prefix(a , e5),
+                                        e6->mot, recherche_arbre_prefix(a , e6),
+                                        e7->mot, recherche_arbre_prefix(a , e7),
+                                        e8->mot, recherche_arbre_prefix(a , e8),
+                                        e9->mot, recherche_arbre_prefix(a , e9),
+                                        e10->mot, recherche_arbre_prefix(a , e10));
 
     element_delete(e1);
     element_delete(e2);
