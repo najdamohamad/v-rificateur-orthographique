@@ -76,7 +76,9 @@ int main(void)
     element_delete(e8);
     element_delete(e9);
 
-    
+    printf("%ld, %ld ,%ld\n", sizeof(a), sizeof(a->fils), sizeof(a->final));
+
+
     //Liste pour la libération mémoire
     table_hachage duplic = hash_new(1);
     detruire_arbre_radix(a, &duplic);

@@ -69,13 +69,6 @@ arbre partage_suffix(arbre a, table_hachage* alr_meet, bool* reloc)
         //On marque le noeud pour la libération
         noeud->reloc = true;
 
-        // arbre i = noeud;
-        // while (i->frere != NULL)
-        // {
-        //     i = i->frere;
-        // }
-        // i->frere = a->frere;
-
         //Suppression du neud inutile
         element_delete(a->val);
         free(a);
@@ -98,6 +91,7 @@ void detruire_arbre_radix(arbre a, table_hachage* duplic)
 
     detruire_arbre_radix(a->frere, duplic);
     detruire_arbre_radix(a->fils, duplic);
+    
     //On ne supprime pas tout de suite les doublons : on les places dans une liste
     //pour supprimer les doubles et les erreurs de double free
     if(a->reloc == true)
