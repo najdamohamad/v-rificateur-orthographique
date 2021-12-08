@@ -75,6 +75,7 @@ int main(void)
     element_delete(e7);
     element_delete(e8);
     element_delete(e9);
+    element_delete(e10);
 
     printf("%ld, %ld ,%ld\n", sizeof(a), sizeof(a->fils), sizeof(a->final));
 

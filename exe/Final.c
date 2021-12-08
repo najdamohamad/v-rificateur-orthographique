@@ -141,9 +141,10 @@ int main(int argc, char *argv[])
     texte = fopen(argv[2], "r");
     begin = clock();
 
+    //Compression niveau 1 !
     transform_prefix_into_radix(&a);
     
-    //Compression des suffixes
+    //Compression des suffixes niveau 2 !
     table_hachage reloc_tmp = hash_new(1); 
     bool useless;
     a = partage_suffix(a, &reloc_tmp, &useless);

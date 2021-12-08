@@ -42,8 +42,6 @@ int lecture(FILE* texte, void* struct_donne, bool (func)(char*, void*), int nb_m
                 if(!func(mots[i], struct_donne))
                     nb_error++;
             }
-            else
-                nb_word_total--;
         }
 
         free_tab_char(mots, nb_words);
