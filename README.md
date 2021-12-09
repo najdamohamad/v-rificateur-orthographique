@@ -1,10 +1,7 @@
 # TP ALGO - orthographe
 
-_Note : Le rapport n'étant pas encore complétement terminé il sera ajouté plus tard mais la versions en cours est 
-accessible via le lien suivant._
 
-
-**Lien du rapport :**
+**Le rapport est disponible dans le dossier Rapport/ ou en suivant ce lien :**
 [Cliquez ICI](https://docs.google.com/document/d/1uqOXZA4931Fzae__El1_qWlyU3KgkM-wfBzQk86oAps/edit?usp=sharing)
 
 
